@@ -1,0 +1,9 @@
+node_modules/
+node_modules/**
+dist
+bin
+CHANGELOG.md
+test-mock-data/
+commands/slash/league/devEval2.js
+commands/slash/league/devEval.js
+avatest/lib/
