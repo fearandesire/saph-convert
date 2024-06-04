@@ -1,8 +1,12 @@
-import { Command } from 'commander'
-import { promises as fs } from 'fs'
+import bgBrightYellow from 'ansis'
+import {Command} from 'commander'
+import figlet from 'figlet'
+import {promises as fs} from 'fs'
 import path from 'path'
-import { MethodDeclaration, Project, Scope, SourceFile } from 'ts-morph'
+import {MethodDeclaration, Project, Scope, SourceFile} from 'ts-morph'
 import Logger from './utils/Logger.js'
+
+console.log(bgBrightYellow.black(figlet.textSync('Convert-CLI', { horizontalLayout: 'full' })));
 
 const program = new Command()
 
@@ -19,6 +23,7 @@ program
 		'<outputPath>',
 		'Output path including directory and TypeScript file name (without extension)',
 	)
+	.addHelpText('afterAll', `\nExample:\n  $ convert-cli convert-file src/commands/myCommand.js dist/commands/myCommand\n`)
 	.action(async (inputFile: string, outputPath: string) => {
 		try {
 			const jsCode = await readJavaScriptFile(inputFile)
@@ -30,6 +35,7 @@ program
 		}
 	})
 
+
 program
 	.command('convert-directory')
 	.description(
@@ -39,6 +45,7 @@ program
 		'<inputDirectory>',
 		'Directory containing JavaScript files to convert',
 	)
+	.addHelpText('afterAll', `\nExample:\n  $ convert-cli convert-directory src/commands\n`)
 	.action(async (inputDirectory: string) => {
 		try {
 			const jsFiles = await findJavaScriptFiles(inputDirectory)
