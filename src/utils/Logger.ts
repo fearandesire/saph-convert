@@ -1,78 +1,91 @@
 import { cyan, magenta, red, yellow } from 'ansis'
 
 type LogLevel = 'info' | 'error' | 'warn' | 'debug'
-
-// Define a type for the allowed message types
 type Loggable = string | number | boolean | object
 
-// Define a type for the levels object
 interface LevelColors {
 	[key: string]: string
 }
 
 class InternalLogger {
 	private levels: LevelColors
+	private cliToolName: string
 
-	constructor() {
-		// Define log level prefixes and their associated colors
+	/**
+	 * Creates an instance of InternalLogger.
+	 * @param {string} cliToolName - The name of the CLI tool.
+	 */
+	constructor(cliToolName: string) {
+		this.cliToolName = cliToolName
 		this.levels = {
-			info: cyan('INFO'),
-			debug: magenta('DEBUG'),
-			error: red('ERROR'),
-			warn: yellow('WARN'),
+			info: cyan(this.cliToolName),
+			debug: magenta(this.cliToolName),
+			error: red(this.cliToolName),
+			warn: yellow(this.cliToolName),
 		}
 	}
 
-	// Info level log using Loggable
+	/**
+	 * Logs an info level message.
+	 * @param {...Loggable[]} messages - The messages to log.
+	 */
 	public info<T extends Loggable>(...messages: T[]): void {
 		this.log('info', messages)
 	}
 
-	// Error level log using Loggable
+	/**
+	 * Logs an error level message.
+	 * @param {...Loggable[]} messages - The messages to log.
+	 */
 	public error<T extends Loggable>(...messages: T[]): void {
 		this.log('error', messages)
 	}
 
-	// Warning level log using Loggable
+	/**
+	 * Logs a warning level message.
+	 * @param {...Loggable[]} messages - The messages to log.
+	 */
 	public warn<T extends Loggable>(...messages: T[]): void {
 		this.log('warn', messages)
 	}
 
-	// Debug level log using Loggable
+	/**
+	 * Logs a debug level message.
+	 * @param {...Loggable[]} messages - The messages to log.
+	 */
 	public debug<T extends Loggable>(...messages: T[]): void {
 		this.log('debug', messages)
 	}
 
-	// General logging function using the defined Loggable type
+	/**
+	 * Logs a message with the specified log level.
+	 * @param {LogLevel} level - The log level.
+	 * @param {Loggable[]} messages - The messages to log.
+	 */
 	private log<T extends Loggable>(level: LogLevel, messages: T[]): void {
-		// Format timestamp
-		const timestamp = `[${new Date().toLocaleTimeString('en-US', { hour12: false })}]`
-
-		// Prepare the prefix with color based on the level
 		const lvlPrefix = this.levels[level]
-
-		// Check if messages is an array and has multiple items or complex types
 		if (Array.isArray(messages) && messages.length > 1) {
-			console.log(`${timestamp} ${lvlPrefix}:`)
+			console.log(`${lvlPrefix}:`)
 			messages.forEach((message) => {
 				console.log(this.formatMessage(message))
 			})
 		} else {
-			// Handle single item arrays or non-array messages uniformly
-			console.log(
-				`${timestamp} ${lvlPrefix}: ${this.formatMessage(messages[0])}`,
-			)
+			console.log(`${lvlPrefix}: ${this.formatMessage(messages[0])}`)
 		}
 	}
 
-	// Helper method to format message based on its type using Loggable
+	/**
+	 * Formats a log message.
+	 * @param {Loggable} message - The message to format.
+	 * @returns {string} The formatted message.
+	 */
 	private formatMessage<T extends Loggable>(message: T): string {
 		if (typeof message === 'object' && message !== null) {
-			return JSON.stringify(message, null, 2) // Pretty print objects
+			return JSON.stringify(message, null, 2)
 		}
-		return String(message) // Convert all non-object types to string
+		return String(message)
 	}
 }
 
-const Logger = new InternalLogger()
+const Logger = new InternalLogger('saph-convert')
 export default Logger

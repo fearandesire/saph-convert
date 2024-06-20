@@ -1,6 +1,5 @@
-import * as ansis from 'ansis'
+import { blue, bold } from 'ansis'
 import { Command } from 'commander'
-import figlet from 'figlet'
 import { promises as fs } from 'fs'
 import path from 'path'
 import {
@@ -14,14 +13,18 @@ import {
 import Logger from './utils/Logger.js'
 
 console.log(
-	ansis.blue(figlet.textSync('Convert-CLI', { horizontalLayout: 'full' })),
+	blue(
+		bold(
+			'Convert-CLI\nCLI to convert Sapphire.js command files from JS to TS',
+		),
+	),
 )
 
 const program = new Command()
 
 program
-	.name('convert-cli')
-	.description('CLI to convert Sapphire.js command files from JS to TS')
+	.name('saph-convert')
+	.description('CLI tool to convert Sapphire.js command files from JS to TS')
 	.version('1.0.0')
 
 program
