@@ -1,27 +1,30 @@
-import globals from "globals";
-import tsParser from "@typescript-eslint/parser";
-import tsPlugin from "@typescript-eslint/eslint-plugin";
+import globals from 'globals'
+import tsParser from '@typescript-eslint/parser'
+import tsPlugin from '@typescript-eslint/eslint-plugin'
 
 export default [
-	"eslint:recommended",
 	{
-		files: [ "**/*.ts" ],
+		files: ['**/*.ts'],
 		languageOptions: {
 			parser: tsParser,
-			globals: globals.node,
+			globals: {
+				...globals.node,
+			},
 		},
 		plugins: {
-			"@typescript-eslint": tsPlugin,
+			'@typescript-eslint': tsPlugin,
 		},
 		rules: {
 			...tsPlugin.configs.recommended.rules,
-			"no-console": "error",
-		}
-	},
-	{
-		files: [ "test/**/*.ts" ],
-		languageOptions: {
-			globals: globals.mocha,
 		},
 	},
-];
+	{
+		files: ['test/**/*.ts'],
+		languageOptions: {
+			parser: tsParser,
+			globals: {
+				...globals.mocha,
+			},
+		},
+	},
+]
