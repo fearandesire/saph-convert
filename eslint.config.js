@@ -22,9 +22,6 @@ export default [
 		files: ['test/**/*.ts'],
 		languageOptions: {
 			parser: tsParser,
-			globals: {
-				...globals.mocha,
-			},
 		},
 	},
 ]
