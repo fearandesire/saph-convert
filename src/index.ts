@@ -60,8 +60,6 @@ program
 		}
 	})
 
-program.parse(process.argv)
-
 program
 	.command('cdir')
 	.description(
@@ -106,6 +104,8 @@ program
 if (!process.argv.slice(2).length) {
 	program.outputHelp()
 }
+
+program.parse(process.argv)
 
 /**
  * Reads a JavaScript file from the given path.
