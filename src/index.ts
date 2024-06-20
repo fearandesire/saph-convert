@@ -1,4 +1,3 @@
-import { blue, bold } from 'ansis'
 import { Command } from 'commander'
 import { promises as fs } from 'fs'
 import path from 'path'
@@ -12,14 +11,6 @@ import {
 } from 'ts-morph'
 import Logger from './utils/Logger.js'
 
-console.log(
-	blue(
-		bold(
-			'Convert-CLI\nCLI to convert Sapphire.js command files from JS to TS',
-		),
-	),
-)
-
 const program = new Command()
 
 program
@@ -28,77 +19,54 @@ program
 	.version('1.0.0')
 
 program
+	.option(
+		'-r, --replace',
+		'Replace original JS command files with converted TypeScript files. Default: Disabled',
+	)
+	.option(
+		'-o, --overwrite',
+		'Overwrite existing TypeScript files. Default: Enabled',
+	)
+
+program
 	.command('cf')
-	.description('Convert a specific JavaScript file to TypeScript')
-	.argument('<inputFile>', 'Input JavaScript file to convert')
+	.description('Convert a specific JS command file to TS')
+	.argument('<inputFile>', 'Path to the JS command file to convert')
 	.argument(
-		'[outputPath]',
-		'Output path including directory and TypeScript file name (without extension). Defaults to same directory as input file.',
+		'<outputPath>',
+		'Output path for the TS file. Defaults to same directory as input file.',
 	)
 	.addHelpText(
 		'afterAll',
-		`\nExample:\n  $ convert-cli cf src/commands/myCommand.js dist/commands/myCommand\n`,
+		`\nExample:\n  $ saph-convert cf src/commands/myCommand.js dist/commands/myCommand\n`,
 	)
 	.action(async (inputFile: string, outputPath?: string) => {
-		try {
-			const jsCode = await readJavaScriptFile(inputFile)
-			const tsCode = convertToTypeScript(jsCode)
-			if (!outputPath) {
-				outputPath = path.join(
-					path.dirname(inputFile),
-					path.basename(inputFile, '.js'),
-				)
-			}
-			await saveTypeScriptFile(tsCode, outputPath)
-			Logger.info(`File converted and saved to ${outputPath}`)
-		} catch (error: unknown) {
-			if (error instanceof Error) {
-				Logger.error(`Error: ${error.message}`)
-			} else {
-				Logger.error(`Unexpected error occurred`)
-			}
-		}
+		const options = program.opts()
+		await convertFile(
+			inputFile,
+			outputPath,
+			options.overwrite,
+			options.replace,
+		)
 	})
 
 program
 	.command('cdir')
 	.description(
-		'Recursively convert all JavaScript files in a directory to TypeScript',
+		'Recursively convert all JS command files in a directory to TS',
 	)
 	.argument(
-		'<inputDirectory>',
-		'Directory containing JavaScript files to convert',
+		'<directory>',
+		'📂 Directory containing Sapphire.js JS command files to convert to TS. ❗ Be cautious: this will blindly convert by the `.js` extension in the directory',
 	)
-	.addHelpText('afterAll', `\nExample:\n  $ convert-cli cdir src/commands\n`)
+	.addHelpText('afterAll', `\nExample:\n  $ saph-convert cdir src/commands\n`)
 	.action(async (inputDirectory: string) => {
-		try {
-			const jsFiles = await findJavaScriptFiles(inputDirectory)
-			const totalFiles = jsFiles.length
-			if (totalFiles === 0) {
-				Logger.error(
-					`No JavaScript files found in directory ${inputDirectory}.`,
-				)
-				return
-			} else {
-				Logger.info(
-					`Converting ${totalFiles} JavaScript files to TypeScript...`,
-				)
-			}
-			for (const jsFile of jsFiles) {
-				const outputPath = jsFile.replace(/\.js$/, '.ts')
-				const jsCode = await readJavaScriptFile(jsFile)
-				const tsCode = convertToTypeScript(jsCode)
-				await saveTypeScriptFile(tsCode, outputPath)
-				await fs.unlink(jsFile)
-			}
-			Logger.info(`Completed TS conversion!`)
-		} catch (error: unknown) {
-			if (error instanceof Error) {
-				Logger.error(`Error: ${error.message}`)
-			} else {
-				Logger.error(`Unexpected Error occurred:`)
-			}
-		}
+		const options = program.opts()
+		await convertDirectory(
+			inputDirectory,
+			options.overwrite,
+			options.replace,
+		)
 	})
 
 if (!process.argv.slice(2).length) {
@@ -279,15 +247,48 @@ function transformMethods(sourceFile: SourceFile) {
  *
  * @param {string} tsCode - The TypeScript code to save.
  * @param {string} outputPath - The path to save the TypeScript file, including the directory and file name without extension.
+ * @param {boolean} overwrite - Whether to overwrite existing files.
+ * @param {boolean} replace - Whether to delete the original JavaScript file after conversion.
  */
-async function saveTypeScriptFile(tsCode: string, outputPath: string) {
+async function saveTypeScriptFile(
+	tsCode: string,
+	outputPath: string,
+	overwrite: boolean,
+	replace: boolean,
+) {
 	const outputDir = path.dirname(outputPath)
 	const outputFileName =
 		path.basename(outputPath, path.extname(outputPath)) + '.ts'
 
 	await fs.mkdir(outputDir, { recursive: true })
 	const outputFilePath = path.join(outputDir, outputFileName)
+
+	if (!overwrite) {
+		try {
+			await fs.access(outputFilePath)
+			Logger.warn(`File ${outputFilePath} already exists. Skipping.`)
+			return
+		} catch {
+			// File does not exist, proceed with writing
+		}
+	}
+
 	await fs.writeFile(outputFilePath, tsCode)
+	if (replace) {
+		try {
+			await fs.unlink(outputFilePath.replace(/\.ts$/, '.js'))
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				Logger.error(
+					`Error deleting original JavaScript file: ${error.message}`,
+				)
+			} else {
+				Logger.error(
+					`Unexpected error occurred while deleting original JavaScript file`,
+				)
+			}
+		}
+	}
 }
 
 /**
@@ -310,4 +311,79 @@ async function findJavaScriptFiles(directory: string): Promise<string[]> {
 	}
 
 	return jsFiles
+}
+
+/**
+ * Converts a specific JavaScript file to TypeScript.
+ *
+ * @param {string} inputFile - The JavaScript file to convert.
+ * @param {string} outputPath - The output path for the TypeScript file.
+ * @param {boolean} overwrite - Whether to overwrite existing files.
+ * @param {boolean} replace - Whether to delete the original JavaScript file after conversion.
+ */
+async function convertFile(
+	inputFile: string,
+	outputPath?: string,
+	overwrite: boolean = true,
+	replace: boolean = false,
+) {
+	try {
+		const jsCode = await readJavaScriptFile(inputFile)
+		const tsCode = convertToTypeScript(jsCode)
+		if (!outputPath) {
+			outputPath = path.join(
+				path.dirname(inputFile),
+				path.basename(inputFile, '.js'),
+			)
+		}
+		await saveTypeScriptFile(tsCode, outputPath, overwrite, replace)
+		Logger.info(`Cmd converted & saved to ${outputPath}`)
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			Logger.error(`Error: ${error.message}`)
+		} else {
+			Logger.error(`Unexpected error occurred`)
+		}
+	}
+}
+
+/**
+ * Recursively converts all JavaScript files in a directory to TypeScript.
+ *
+ * @param {string} inputDirectory - The directory containing JavaScript files to convert.
+ * @param {boolean} overwrite - Whether to overwrite existing files.
+ * @param {boolean} replace - Whether to delete the original JavaScript file after conversion.
+ */
+async function convertDirectory(
+	inputDirectory: string,
+	overwrite: boolean = true,
+	replace: boolean = false,
+) {
+	try {
+		const jsFiles = await findJavaScriptFiles(inputDirectory)
+		const totalFiles = jsFiles.length
+		if (totalFiles === 0) {
+			Logger.error(
+				`No JavaScript files found in directory ${inputDirectory}.`,
+			)
+			return
+		} else {
+			Logger.info(
+				`Converting ${totalFiles} JavaScript files to TypeScript...`,
+			)
+		}
+		for (const jsFile of jsFiles) {
+			const outputPath = jsFile.replace(/\.js$/, '.ts')
+			const jsCode = await readJavaScriptFile(jsFile)
+			const tsCode = convertToTypeScript(jsCode)
+			await saveTypeScriptFile(tsCode, outputPath, overwrite, replace)
+		}
+		Logger.info(`Completed TS conversion!`)
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			Logger.error(`Error: ${error.message}`)
+		} else {
+			Logger.error(`Unexpected error occurred`)
+		}
+	}
 }
