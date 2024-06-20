@@ -28,7 +28,7 @@ program
 	.version('1.0.0')
 
 program
-	.command('convert-file')
+	.command('cf')
 	.description('Convert a specific JavaScript file to TypeScript')
 	.argument('<inputFile>', 'Input JavaScript file to convert')
 	.argument(
@@ -37,7 +37,7 @@ program
 	)
 	.addHelpText(
 		'afterAll',
-		`\nExample:\n  $ convert-cli convert-file src/commands/myCommand.js dist/commands/myCommand\n`,
+		`\nExample:\n  $ convert-cli cf src/commands/myCommand.js dist/commands/myCommand\n`,
 	)
 	.action(async (inputFile: string, outputPath?: string) => {
 		try {
@@ -60,8 +60,10 @@ program
 		}
 	})
 
+program.parse(process.argv)
+
 program
-	.command('convert-directory')
+	.command('cdir')
 	.description(
 		'Recursively convert all JavaScript files in a directory to TypeScript',
 	)
@@ -69,10 +71,7 @@ program
 		'<inputDirectory>',
 		'Directory containing JavaScript files to convert',
 	)
-	.addHelpText(
-		'afterAll',
-		`\nExample:\n  $ convert-cli convert-directory src/commands\n`,
-	)
+	.addHelpText('afterAll', `\nExample:\n  $ convert-cli cdir src/commands\n`)
 	.action(async (inputDirectory: string) => {
 		try {
 			const jsFiles = await findJavaScriptFiles(inputDirectory)
@@ -103,8 +102,6 @@ program
 			}
 		}
 	})
-
-program.parse(process.argv)
 
 if (!process.argv.slice(2).length) {
 	program.outputHelp()
