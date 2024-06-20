@@ -1,12 +1,21 @@
-import bgBrightYellow from 'ansis'
-import {Command} from 'commander'
+import * as ansis from 'ansis'
+import { Command } from 'commander'
 import figlet from 'figlet'
-import {promises as fs} from 'fs'
+import { promises as fs } from 'fs'
 import path from 'path'
-import {MethodDeclaration, Project, Scope, SourceFile} from 'ts-morph'
+import {
+	ClassDeclaration,
+	ConstructorDeclaration,
+	MethodDeclaration,
+	Project,
+	Scope,
+	SourceFile,
+} from 'ts-morph'
 import Logger from './utils/Logger.js'
 
-console.log(bgBrightYellow.black(figlet.textSync('Convert-CLI', { horizontalLayout: 'full' })));
+console.log(
+	ansis.blue(figlet.textSync('Convert-CLI', { horizontalLayout: 'full' })),
+)
 
 const program = new Command()
 
@@ -20,21 +29,33 @@ program
 	.description('Convert a specific JavaScript file to TypeScript')
 	.argument('<inputFile>', 'Input JavaScript file to convert')
 	.argument(
-		'<outputPath>',
-		'Output path including directory and TypeScript file name (without extension)',
+		'[outputPath]',
+		'Output path including directory and TypeScript file name (without extension). Defaults to same directory as input file.',
 	)
-	.addHelpText('afterAll', `\nExample:\n  $ convert-cli convert-file src/commands/myCommand.js dist/commands/myCommand\n`)
-	.action(async (inputFile: string, outputPath: string) => {
+	.addHelpText(
+		'afterAll',
+		`\nExample:\n  $ convert-cli convert-file src/commands/myCommand.js dist/commands/myCommand\n`,
+	)
+	.action(async (inputFile: string, outputPath?: string) => {
 		try {
 			const jsCode = await readJavaScriptFile(inputFile)
 			const tsCode = convertToTypeScript(jsCode)
+			if (!outputPath) {
+				outputPath = path.join(
+					path.dirname(inputFile),
+					path.basename(inputFile, '.js'),
+				)
+			}
 			await saveTypeScriptFile(tsCode, outputPath)
-			console.log(`File converted and saved to ${outputPath}`)
-		} catch (error: any) {
-			console.error(`Error: ${error.message}`)
+			Logger.info(`File converted and saved to ${outputPath}`)
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				Logger.error(`Error: ${error.message}`)
+			} else {
+				Logger.error(`Unexpected error occurred`)
+			}
 		}
 	})
-
 
 program
 	.command('convert-directory')
@@ -45,7 +66,10 @@ program
 		'<inputDirectory>',
 		'Directory containing JavaScript files to convert',
 	)
-	.addHelpText('afterAll', `\nExample:\n  $ convert-cli convert-directory src/commands\n`)
+	.addHelpText(
+		'afterAll',
+		`\nExample:\n  $ convert-cli convert-directory src/commands\n`,
+	)
 	.action(async (inputDirectory: string) => {
 		try {
 			const jsFiles = await findJavaScriptFiles(inputDirectory)
@@ -68,8 +92,12 @@ program
 				await fs.unlink(jsFile)
 			}
 			Logger.info(`Completed TS conversion!`)
-		} catch (error: any) {
-			console.error(`Error: ${error.message}`)
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				Logger.error(`Error: ${error.message}`)
+			} else {
+				Logger.error(`Unexpected Error occurred:`)
+			}
 		}
 	})
 
@@ -78,7 +106,7 @@ program.parse(process.argv)
 if (!process.argv.slice(2).length) {
 	program.outputHelp()
 }
-// Modules below
+
 /**
  * Reads a JavaScript file from the given path.
  *
@@ -130,19 +158,26 @@ function transformClasses(sourceFile: SourceFile) {
 }
 
 /**
- * Extracts the description from the constructor parameters.
+ * Extracts the description from the constructor parameters using regex.
  * Used for {@link addApplyOptionsDecorator ApplyOptions decorator}.
  * @param {any} constructor - The constructor to extract the description from.
  * @returns {string | undefined} The description if found, otherwise undefined.
  */
-function getDescriptionFromConstructor(constructor: any): string | undefined {
-	return constructor
-		.getParameters()[1]
-		.getType()
-		.getProperties()
-		.find((prop: any) => prop.getName() === 'description')
-		?.getValueDeclaration()
-		?.getText()
+function getDescriptionFromConstructor(
+	constructor: ConstructorDeclaration,
+): string | undefined {
+	const constructorText = constructor.getText().replace(/\t/g, '')
+	const descriptionMatch = constructorText.match(
+		/description:\s*['"](.+?)['"]/,
+	)
+
+	if (!descriptionMatch) {
+		return undefined
+	}
+
+	const descriptionValue = descriptionMatch[1]
+
+	return descriptionValue
 }
 
 /**
@@ -151,10 +186,10 @@ function getDescriptionFromConstructor(constructor: any): string | undefined {
  * @param {any} cls - The class to add the decorator to.
  * @param {string} description - The description to use in the decorator.
  */
-function addApplyOptionsDecorator(cls: any, description: string) {
+function addApplyOptionsDecorator(cls: ClassDeclaration, description: string) {
 	cls.addDecorator({
 		name: 'ApplyOptions',
-		arguments: [`<Command.Options>({ description: ${description} })`],
+		arguments: [`<Command.Options>{ description: "${description}" }`],
 	})
 }
 
