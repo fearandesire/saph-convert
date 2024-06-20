@@ -1,4 +1,4 @@
-import ansis, {bgCyan, bgMagenta, bgRed, bgYellow, black, cyan, magenta, red, white, yellow} from "ansis";
+import { cyan, magenta, red, yellow } from 'ansis'
 
 type LogLevel = 'info' | 'error' | 'warn' | 'debug'
 
@@ -19,8 +19,28 @@ class InternalLogger {
 			info: cyan('INFO'),
 			debug: magenta('DEBUG'),
 			error: red('ERROR'),
-			warn: yellow('WARN')
+			warn: yellow('WARN'),
 		}
+	}
+
+	// Info level log using Loggable
+	public info<T extends Loggable>(...messages: T[]): void {
+		this.log('info', messages)
+	}
+
+	// Error level log using Loggable
+	public error<T extends Loggable>(...messages: T[]): void {
+		this.log('error', messages)
+	}
+
+	// Warning level log using Loggable
+	public warn<T extends Loggable>(...messages: T[]): void {
+		this.log('warn', messages)
+	}
+
+	// Debug level log using Loggable
+	public debug<T extends Loggable>(...messages: T[]): void {
+		this.log('debug', messages)
 	}
 
 	// General logging function using the defined Loggable type
@@ -51,26 +71,6 @@ class InternalLogger {
 			return JSON.stringify(message, null, 2) // Pretty print objects
 		}
 		return String(message) // Convert all non-object types to string
-	}
-
-	// Info level log using Loggable
-	public info<T extends Loggable>(...messages: T[]): void {
-		this.log('info', messages)
-	}
-
-	// Error level log using Loggable
-	public error<T extends Loggable>(...messages: T[]): void {
-		this.log('error', messages)
-	}
-
-	// Warning level log using Loggable
-	public warn<T extends Loggable>(...messages: T[]): void {
-		this.log('warn', messages)
-	}
-
-	// Debug level log using Loggable
-	public debug<T extends Loggable>(...messages: T[]): void {
-		this.log('debug', messages)
 	}
 }
 
