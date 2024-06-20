@@ -39,6 +39,7 @@
     "release-it": "^17.3.0",
     "release-it-changelogen": "^0.1.0",
     "tsconfig-paths": "^4.2.0",
-    "tsx": "^4.11.0"
+    "tsx": "^4.11.0",
+    "vitest": "^1.6.0"
   }
 }
