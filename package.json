@@ -1,5 +1,5 @@
 {
-  "name": "@fearandesire/sapphire-cmd-ts-converter",
+  "name": "sapphire-cmd-ts-converter",
   "version": "0.0.1",
   "description": "CLI tool to convert Sapphire commands to TypeScript",
   "main": "dist/index.js",
@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "sapphire-convert": "dist/index.js"
+    "saph-convert": "dist/index.js"
   },
   "keywords": [],
   "author": "fearandesire <fenixcoding@gmail.com>",
@@ -21,7 +21,7 @@
   "dependencies": {
     "ansis": "^3.2.0",
     "commander": "^12.1.0",
-    "eslint": "8.55",
+    "eslint": "8.55.0",
     "figlet": "^1.7.0",
     "globals": "^15.3.0",
     "ts-morph": "^22.0.0",
