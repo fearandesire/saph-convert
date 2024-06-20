@@ -96,4 +96,16 @@ dist
 !.yarn/cache
 bin
 bin/**/*
+/idea/**/*
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/git_toolbox_prj.xml
+/.idea/vcs.xml
+/.idea/jsLinters/eslint.xml
 idea
+/.idea/codeStyles/codeStyleConfig.xml
+/.idea/modules.xml
+/.idea/conventionalCommit.xml
+/.idea/material_theme_project_new.xml
+/.idea/sapphire-ts-converter.iml
+/.idea/codeStyles/Project.xml
+/.idea/.gitignore
