@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { Command } from 'commander'
 import { promises as fs } from 'fs'
 import path from 'path'
@@ -33,12 +34,12 @@ program
 	.description('Convert a specific JS command file to TS')
 	.argument('<inputFile>', 'Path to the JS command file to convert')
 	.argument(
-		'<outputPath>',
+		'[outputPath]',
 		'Output path for the TS file. Defaults to same directory as input file.',
 	)
 	.addHelpText(
 		'afterAll',
-		`\nExample:\n  $ saph-convert cf src/commands/myCommand.js dist/commands/myCommand\n`,
+		`\nExample:\n  $ saph-convert cf src/commands/myCommand.js [dist/commands/myCommand]\n`,
 	)
 	.action(async (inputFile: string, outputPath?: string) => {
 		const options = program.opts()
@@ -57,13 +58,21 @@ program
 	)
 	.argument(
 		'<directory>',
-		'📂 Directory containing Sapphire.js JS command files to convert to TS. ❗ Be cautious: this will blindly convert by the `.js` extension in the directory',
+		'Directory containing Sapphire.js JS command files to convert to TS. ❗ Be cautious: this will blindly convert by the `.js` extension in the directory',
 	)
-	.addHelpText('afterAll', `\nExample:\n  $ saph-convert cdir src/commands\n`)
-	.action(async (inputDirectory: string) => {
+	.argument(
+		'[outputDirectory]',
+		'Output directory for the TS files. Defaults to same directory as input.',
+	)
+	.addHelpText(
+		'afterAll',
+		`\nExample:\n  $ saph-convert cdir src/commands [dist/commands]\n`,
+	)
+	.action(async (inputDirectory: string, outputDirectory?: string) => {
 		const options = program.opts()
 		await convertDirectory(
 			inputDirectory,
+			outputDirectory,
 			options.overwrite,
 			options.replace,
 		)
@@ -95,14 +104,16 @@ async function readJavaScriptFile(inputFile: string): Promise<string> {
  * @returns {string} The converted TypeScript code.
  */
 function convertToTypeScript(jsCode: string): string {
-	const project = new Project()
-	const sourceFile = project.createSourceFile('temp.ts', jsCode)
+	const project = new Project();
+	const sourceFile = project.createSourceFile('temp.ts', jsCode);
 
-	transformClasses(sourceFile)
-	transformFunctions(sourceFile)
-	transformMethods(sourceFile)
+	transformClasses(sourceFile);
+	transformFunctions(sourceFile);
+	transformMethods(sourceFile);
 
-	return sourceFile.getText()
+	addApplyOptionsImport(sourceFile);
+
+	return sourceFile.getText();
 }
 
 /**
@@ -242,6 +253,24 @@ function transformMethods(sourceFile: SourceFile) {
 	})
 }
 
+
+/**
+ *
+ * @param {SourceFile} sourceFile - The source file to check and modify.
+ */
+function addApplyOptionsImport(sourceFile: SourceFile) {
+	const applyOptionsUsed = sourceFile.getClasses().some(cls =>
+		cls.getDecorators().some(dec => dec.getName() === 'ApplyOptions')
+	);
+
+	if (applyOptionsUsed) {
+		sourceFile.addImportDeclaration({
+			moduleSpecifier: '@sapphire/decorators',
+			namedImports: ['ApplyOptions'],
+		});
+	}
+}
+
 /**
  * Saves the TypeScript code to the specified output path.
  *
@@ -321,6 +350,7 @@ async function findJavaScriptFiles(directory: string): Promise<string[]> {
  * @param {boolean} overwrite - Whether to overwrite existing files.
  * @param {boolean} replace - Whether to delete the original JavaScript file after conversion.
  */
+
 async function convertFile(
 	inputFile: string,
 	outputPath?: string,
@@ -346,16 +376,17 @@ async function convertFile(
 		}
 	}
 }
-
 /**
  * Recursively converts all JavaScript files in a directory to TypeScript.
  *
  * @param {string} inputDirectory - The directory containing JavaScript files to convert.
+ * @param outputDirectory - The output directory for the TypeScript files.
  * @param {boolean} overwrite - Whether to overwrite existing files.
  * @param {boolean} replace - Whether to delete the original JavaScript file after conversion.
  */
 async function convertDirectory(
 	inputDirectory: string,
+	outputDirectory?: string,
 	overwrite: boolean = true,
 	replace: boolean = false,
 ) {
@@ -373,7 +404,10 @@ async function convertDirectory(
 			)
 		}
 		for (const jsFile of jsFiles) {
-			const outputPath = jsFile.replace(/\.js$/, '.ts')
+			const relativePath = path.relative(inputDirectory, jsFile)
+			const outputPath = outputDirectory
+				? path.join(outputDirectory, relativePath.replace(/\.js$/, '.ts'))
+				: jsFile.replace(/\.js$/, '.ts')
 			const jsCode = await readJavaScriptFile(jsFile)
 			const tsCode = convertToTypeScript(jsCode)
 			await saveTypeScriptFile(tsCode, outputPath, overwrite, replace)

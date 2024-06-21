@@ -8,9 +8,7 @@
     "dev": "tsx src/index.ts",
     "start": "node dist/index.js"
   },
-  "bin": {
-    "saph-convert": "dist/index.js"
-  },
+  "bin": "dist/index.js",
   "keywords": [],
   "author": "fearandesire <fenixcoding@gmail.com>",
   "license": "MIT",
