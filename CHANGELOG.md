@@ -1,6 +1,24 @@
 # Changelog
 
 
+## v1.0.2
+
+[compare changes](https://github.com/fearandesire/saph-convert/compare/v1.0.1...v1.0.2)
+
+### 📖 Documentation
+
+- Add missing decorator in output example ([b8cbbfb](https://github.com/fearandesire/saph-convert/commit/b8cbbfb))
+
+### 🏡 Chore
+
+- Link shield to npm ([b03ba58](https://github.com/fearandesire/saph-convert/commit/b03ba58))
+- Undo version bump to use release-it ([b076c86](https://github.com/fearandesire/saph-convert/commit/b076c86))
+- **release:** V1.0.1 ([4dca77d](https://github.com/fearandesire/saph-convert/commit/4dca77d))
+
+### ❤️ Contributors
+
+- Fearandesire ([@fearandesire](http://github.com/fearandesire))
+
 ## v1.0.1
 
 [compare changes](https://github.com/fearandesire/saph-convert/compare/v1.0.1...v1.0.1)
