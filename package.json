@@ -9,7 +9,18 @@
     "start": "node dist/index.js"
   },
   "bin": "dist/index.js",
-  "keywords": [],
+  "keywords": [
+    "sapphire.js command converter",
+    "js converter",
+    "command-line",
+    "cli",
+    "js-to-ts",
+    "code-conversion",
+    "typescript-converter",
+    "sapphire-converter",
+    "node.js",
+    "programming"
+  ],
   "author": "fearandesire <fenixcoding@gmail.com>",
   "license": "MIT",
   "type": "module",
