@@ -1,8 +1,8 @@
-# saph-convert
+# [saph-convert](https://github.com/fearandesire/saph-convert)
 
 ![saph-convert](https://img.shields.io/badge/saph--convert-v1.0.0-blue)
 
-CLI tool to convert [Sapphire.js](https://sapphirejs.dev/) command files from JavaScript to TypeScript.
+CLI tool to effortlessly convert [Sapphire.js](https://sapphirejs.dev/) command files from JavaScript to TypeScript.
 
 ## Example
 For straight-forward usage:
@@ -10,7 +10,19 @@ For straight-forward usage:
 saph-convert cf ./src/commands/ping.js
 ```
 
-## Installation
+## Table of Contents
+- [Example](#example)
+- [Installation](#installation)
+- [Usage](#usage)
+    - [Global Options](#global-options)
+    - [Commands](#commands)
+- [Conversion Example](#conversion-example)
+- [Dependencies](#dependencies)
+- [Contributing](#contributing)
+- [License](#license)
+
+
+# Installation
 
 ```bash
 # with npm
@@ -19,52 +31,29 @@ npm install -g saph-convert
 yarn global add saph-convert
 ```
 
-## Usage
-### Global Options
+# Usage
+## Global Options
 `-r` or `--replace` - Replace original JS command file(s) with converted TypeScript files. **_Default: Enabled_**
 
-`-o` or `--overwrite` - Overwrite existing TS file. E.g, `commands/ping.ts` is overwritten with the newly-converted `commands/ping.ts` **_Default: Enabled_**
+`-o` or `--overwrite` - Overwrite existing TS file. **_Default: Enabled_**
 
 
-### cf
-Converts a specified command file to TypeScript.
+## Commands
 
-🧠 **Command Args:** saph-convert cf `<inputFile>` `<outputPath>`
+`cf <inputFile> [outputPath]`: Convert a single command file.
 
-**The original JS command file will be left untouched unless -r or --replace is specified.**
+`cdir <directory> [outputPath]`: Convert all command files within a directory.
 
-
-- `<inputFile>`: Path to the input JavaScript file to convert.
-- `[outputPath]` (optional): Path where the converted TypeScript file will be saved.
-
-When `<outputPath>` is not specified, the output will be saved to the same directory as the input file.
-Additionally, you do not need to add the `.ts` extension to the output file name.
-
-**Example:**
+### **Examples:**
 ```bash
-# Converts the cmd, and it goes right back to the same directory
-saph-convert cf ./src/commands/owner/eval.js
-```
-
-### cdir
-Recursively converts all command files in a directory to TypeScript.
-
-🧠 **Command Syntax:** `saph-convert cdir <directory> <outputPath>`
-
-> ⚠️ **Note:** Currently, this library will check for all .js files. Only use this in a directory that strictly contains command files
-
-- `<directory>`: Path to the input directory containing JavaScript command files to convert.
-- `[outputPath]` _(optional)_: Output path where the converted TypeScript files will be saved.
-
-As with `cf`, if `[outputPath]` is not specified, the output will be saved to the same directory as the input.
-
-**Example:**
-```bash
-# Converts all .js files in the commands directory
+saph-convert cf ./src/commands/ping.js
 saph-convert cdir ./src/commands
 ```
+> ⚠️ When using `cdir`, this library will convert all .js files in the directory. Only use this in a directory that strictly contains command files
 
-## Conversion Example
+> **Note:** In the instance of an existing `.ts` file with the same name, the tool will not overwrite it unless `-o` is provided.
+
+# Conversion Example
 To make you aware of the expected capabilities of `saph-convert`, here's an example `ping` command
 ```js 
 // src/commands/ping.js
@@ -117,3 +106,14 @@ export class UserCommand extends Command {
 	}
 }
 ```
+
+# Dependencies
+- [ansis](https://www.npmjs.com/package/ansis)
+- [commander](https://www.npmjs.com/package/commander)
+- [ts-morph](https://www.npmjs.com/package/ts-morph)
+
+# Contributing
+Contributions are welcome! Please open an issue or submit a pull request for any bugs or feature requests.
+
+# License
+[MIT License](LICENSE)
