@@ -89,6 +89,7 @@ export class PingCommand extends Command {
 **Output:**
 ```ts
 import { Command } from '@sapphire/framework'
+import { ApplyOptions } from '@sapphire/decorators'
 
 @ApplyOptions(<Command.Options>{ description: "Responds with Pong!" })
 export class UserCommand extends Command {
