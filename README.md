@@ -1,6 +1,6 @@
 # [saph-convert](https://github.com/fearandesire/saph-convert)
 
-![saph-convert](https://img.shields.io/badge/saph--convert-v1.0.0-blue)
+![saph-convert](https://img.shields.io/npm/v/saph-convert)
 
 CLI tool to effortlessly convert [Sapphire.js](https://sapphirejs.dev/) command files from JavaScript to TypeScript.
 
