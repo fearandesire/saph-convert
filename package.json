@@ -13,7 +13,7 @@
   },
   "keywords": [],
   "author": "fearandesire <fenixcoding@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "type": "module",
   "packageManager": "yarn@4.2.2",
   "dependencies": {
