@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v1.0.1
+
+[compare changes](https://github.com/fearandesire/saph-convert/compare/v1.0.1...v1.0.1)
+
+### 🏡 Chore
+
+- Link shield to npm ([b03ba58](https://github.com/fearandesire/saph-convert/commit/b03ba58))
+- Undo version bump to use release-it ([b076c86](https://github.com/fearandesire/saph-convert/commit/b076c86))
+
+### ❤️ Contributors
+
+- Fearandesire ([@fearandesire](http://github.com/fearandesire))
+
 ## v1.0.0
 
 
