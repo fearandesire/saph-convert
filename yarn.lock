@@ -866,13 +866,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/figlet@npm:^1":
-  version: 1.5.8
-  resolution: "@types/figlet@npm:1.5.8"
-  checksum: 10c0/b61385ca7d7c7716a7ee63d421b24d851fbe9ea43e67a746e0f90212fa6502fe9e34bf5b5e6761c363b828cd87eb953fc55b2f48bfe2801c309e0077230474c3
-  languageName: node
-  linkType: hard
-
 "@types/http-cache-semantics@npm:^4.0.2":
   version: 4.0.4
   resolution: "@types/http-cache-semantics@npm:4.0.4"
@@ -2774,15 +2767,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"figlet@npm:^1.7.0":
-  version: 1.7.0
-  resolution: "figlet@npm:1.7.0"
-  bin:
-    figlet: bin/index.js
-  checksum: 10c0/bedd97fe5fa604002ae8c6bc0b08dea6f9701e0b268f42e601668956f50ff377ef592e24e182a6174a775abde9e2aa77697e324b8681619ae23bc85078439393
-  languageName: node
-  linkType: hard
-
 "file-entry-cache@npm:^8.0.0":
   version: 8.0.0
   resolution: "file-entry-cache@npm:8.0.0"
@@ -3117,10 +3101,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globals@npm:^15.3.0":
-  version: 15.3.0
-  resolution: "globals@npm:15.3.0"
-  checksum: 10c0/edbef1c528185d02636ed6d72a1688168b922d6176031904386214f8b59d893f1d0a28da519b95665f557d366b17ea1affb9f433ea451e7372e2808fb31079d7
+"globals@npm:^15.6.0":
+  version: 15.6.0
+  resolution: "globals@npm:15.6.0"
+  checksum: 10c0/ba488ec5bd770336a3e1ffec3f718077768aec99e16f30c33c0eeaed09e0b93fa06a24fc0d3844d1d81a678c86d22f04547703e87e2e4353601eddcb800479ec
   languageName: node
   linkType: hard
 
@@ -5538,7 +5522,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "sapphire-cmd-ts-converter@workspace:."
   dependencies:
-    "@types/figlet": "npm:^1"
     "@types/lodash": "npm:^4.17.4"
     "@types/node": "npm:^20.14.1"
     "@typescript-eslint/eslint-plugin": "npm:^7.11.0"
@@ -5548,15 +5531,13 @@ __metadata:
     eslint: "npm:^9.5.0"
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-prettier: "npm:^5.1.3"
-    figlet: "npm:^1.7.0"
-    globals: "npm:^15.3.0"
+    globals: "npm:^15.6.0"
     prettier: "npm:^3.3.0"
     release-it: "npm:^17.3.0"
     release-it-changelogen: "npm:^0.1.0"
     ts-morph: "npm:^22.0.0"
     tsconfig-paths: "npm:^4.2.0"
     tsx: "npm:^4.11.0"
-    typescript: "npm:^5.4.5"
     vitest: "npm:^1.6.0"
   bin:
     saph-convert: dist/index.js
@@ -6166,26 +6147,6 @@ __metadata:
   dependencies:
     is-typedarray: "npm:^1.0.0"
   checksum: 10c0/4ac5b7a93d604edabf3ac58d3a2f7e07487e9f6e98195a080e81dbffdc4127817f470f219d794a843b87052cedef102b53ac9b539855380b8c2172054b7d5027
-  languageName: node
-  linkType: hard
-
-"typescript@npm:^5.4.5":
-  version: 5.4.5
-  resolution: "typescript@npm:5.4.5"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 10c0/2954022ada340fd3d6a9e2b8e534f65d57c92d5f3989a263754a78aba549f7e6529acc1921913560a4b816c46dce7df4a4d29f9f11a3dc0d4213bb76d043251e
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@npm%3A^5.4.5#optional!builtin<compat/typescript>":
-  version: 5.4.5
-  resolution: "typescript@patch:typescript@npm%3A5.4.5#optional!builtin<compat/typescript>::version=5.4.5&hash=5adc0c"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 10c0/db2ad2a16ca829f50427eeb1da155e7a45e598eec7b086d8b4e8ba44e5a235f758e606d681c66992230d3fc3b8995865e5fd0b22a2c95486d0b3200f83072ec9
   languageName: node
   linkType: hard
 
