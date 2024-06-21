@@ -12,7 +12,7 @@ saph-convert cf ./src/commands/ping.js
 
 ## Table of Contents
 - [Example](#example)
-- [Installation](#installation)
+- [Install](#install)
 - [Usage](#usage)
     - [Global Options](#global-options)
     - [Commands](#commands)
@@ -22,7 +22,7 @@ saph-convert cf ./src/commands/ping.js
 - [License](#license)
 
 
-# Installation
+# Install
 
 ```bash
 # with npm
@@ -54,7 +54,7 @@ saph-convert cdir ./src/commands
 > **Note:** In the instance of an existing `.ts` file with the same name, the tool will not overwrite it unless `-o` is provided.
 
 # Conversion Example
-To make you aware of the expected capabilities of `saph-convert`, here's an example `ping` command
+**Input:**
 ```js 
 // src/commands/ping.js
 import { Command } from '@sapphire/framework'
