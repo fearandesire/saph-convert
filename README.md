@@ -5,7 +5,7 @@
 CLI tool to effortlessly convert [Sapphire.js](https://sapphirejs.dev/) command files from JavaScript to TypeScript.
 
 ## Example
-For straight-forward usage:
+Straight-forward usage:
 ```bash
 saph-convert cf ./src/commands/ping.js
 ```
@@ -42,7 +42,7 @@ yarn global add saph-convert
 
 `cf <inputFile> [outputPath]`: Convert a single command file.
 
-`cdir <directory> [outputPath]`: Convert all command files within a directory.
+`cdir <directory> [outputPath]`: Recursively convert all command files within a directory.
 
 ### **Examples:**
 ```bash
