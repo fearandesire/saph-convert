@@ -23,6 +23,10 @@
     "programming"
   ],
   "author": "fearandesire <fenixcoding@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fearandesire/saph-convert"
+  },
   "license": "MIT",
   "type": "module",
   "packageManager": "yarn@4.2.2",
