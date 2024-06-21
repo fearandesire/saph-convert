@@ -1,7 +1,7 @@
 {
   "name": "sapphire-cmd-ts-converter",
   "version": "0.0.1",
-  "description": "CLI tool to convert Sapphire commands to TypeScript",
+  "description": "CLI tool to effortlessly convert Sapphire.js JavaScript commands to TypeScript",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -14,7 +14,6 @@
   "keywords": [],
   "author": "fearandesire <fenixcoding@gmail.com>",
   "license": "ISC",
-  "private": true,
   "type": "module",
   "packageManager": "yarn@4.2.2",
   "dependencies": {
