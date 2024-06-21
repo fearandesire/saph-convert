@@ -1,6 +1,6 @@
 {
   "name": "saph-convert",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "CLI tool to effortlessly convert Sapphire.js JavaScript commands to TypeScript",
   "main": "dist/index.js",
   "scripts": {
