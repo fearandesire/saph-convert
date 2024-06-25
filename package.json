@@ -4,6 +4,9 @@
 	"description": "CLI tool to effortlessly convert Sapphire.js JavaScript commands to TypeScript",
 	"main": "dist/index.js",
 	"scripts": {
+    "lint": "eslint src --ext ts --fix",
+		"prettier": "prettier --ignore-path=.prettierignore",
+		"format": "prettier --write .",
     "build": "tsc -b src",
 		"clean": "tsc -b src --clean",
 		"watch": "tsc -b src -w",
