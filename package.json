@@ -2,7 +2,17 @@
 	"name": "saph-convert",
 	"version": "1.0.2",
 	"description": "CLI tool to effortlessly convert Sapphire.js JavaScript commands to TypeScript",
+  "author": "fearandesire <fenixcoding@gmail.com>",
+  "license": "MIT",
+	"type": "module",
 	"main": "dist/index.js",
+  "bin": {
+		"saph-convert": "dist/index.js"
+	},
+  "sideEffects": "false",
+	"files": [
+		"dist/**/*.js"
+	],
 	"scripts": {
     "lint": "eslint src --ext ts --fix",
 		"prettier": "prettier --ignore-path=.prettierignore",
@@ -14,33 +24,12 @@
 		"check-update": "cliff-jumper --dry-run",
     "prepack": "yarn build"
 	},
-	"bin": "dist/index.js",
-	"keywords": [
-		"sapphire.js command converter",
-		"js converter",
-		"command-line",
-		"cli",
-		"js-to-ts",
-		"code-conversion",
-		"typescript-converter",
-		"sapphire-converter",
-		"node.js",
-		"programming"
-	],
-	"author": "fearandesire <fenixcoding@gmail.com>",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/fearandesire/saph-convert"
-	},
-	"license": "MIT",
-	"type": "module",
-	"packageManager": "yarn@4.3.1",
-	"dependencies": {
+  "dependencies": {
 		"ansis": "^3.2.0",
 		"commander": "^12.1.0",
 		"ts-morph": "^22.0.0"
 	},
-	"devDependencies": {
+  "devDependencies": {
 		"@commitlint/cli": "^19.3.0",
 		"@commitlint/config-conventional": "^19.2.2",
     "@favware/cliff-jumper": "^4.0.2",
@@ -63,8 +52,27 @@
 		"typescript": "^5.5.2",
 		"vitest": "^1.6.0"
 	},
-	"eslintConfig": {
-		"extends": "@sapphire"
+  "engines": {
+		"node": ">=v18"
+	},
+	"keywords": [
+		"sapphire.js command converter",
+		"js converter",
+		"command-line",
+		"cli",
+		"js-to-ts",
+		"code-conversion",
+		"typescript-converter",
+		"sapphire-converter",
+		"node.js",
+		"programming"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/fearandesire/saph-convert.git"
+	},
+  "bugs": {
+		"url": "https://github.com/fearandesire/saph-convert/issues"
 	},
 	"commitlint": {
 		"extends": [
@@ -80,5 +88,9 @@
 			"path": "./node_modules/cz-conventional-changelog"
 		}
 	},
-	"prettier": "@sapphire/prettier-config"
+	"publishConfig": {
+		"access": "public"
+	},
+	"prettier": "@sapphire/prettier-config",
+	"packageManager": "yarn@4.3.1"
 }
