@@ -60,7 +60,11 @@ saph-convert cdir ./src/commands
 import { Command } from '@sapphire/framework'
 
 export class PingCommand extends Command {
-	constructor(context: Command.Context, options: Command.Options) {
+	/**
+	 * @param {Command.Context} context
+	 * @param {Command.Options} options
+	 */
+	constructor(context, options) {
 		super(context, {
 			...options,
 			name: 'ping',
@@ -71,7 +75,10 @@ export class PingCommand extends Command {
 		})
 	}
 
-	registerApplicationCommands(registry: Command.Registry) {
+	/**
+	 * @param {Command.Registry} registry
+	 */
+	registerApplicationCommands(registry) {
 		registry.registerChatInputCommand(
 			(builder) =>
 				builder //
@@ -80,7 +87,11 @@ export class PingCommand extends Command {
 		)
 	}
 
-	async chatInputRun(interaction: Command.ChatInputInteraction) {
+
+	/**
+	 * @param {Command.ChatInputCommandInteraction} interaction
+	 */
+	async chatInputRun(interaction) {
 		await interaction.reply('Pong!')
 	}
 }
@@ -102,7 +113,7 @@ export class UserCommand extends Command {
 		)
 	}
 
-	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+	public async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
 		await interaction.reply('Pong!')
 	}
 }
