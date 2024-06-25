@@ -36,9 +36,10 @@
 		"ts-morph": "^22.0.0"
 	},
 	"devDependencies": {
-    "@commitlint/cli": "^19.3.0",
+		"@commitlint/cli": "^19.3.0",
 		"@commitlint/config-conventional": "^19.2.2",
-    "@sapphire/eslint-config": "^5.0.5",
+		"@sapphire/eslint-config": "^5.0.5",
+		"@sapphire/prettier-config": "^2.0.0",
 		"@types/lodash": "^4.17.4",
 		"@types/node": "^20.14.1",
 		"@typescript-eslint/eslint-plugin": "^7.11.0",
@@ -59,7 +60,7 @@
 	"eslintConfig": {
 		"extends": "@sapphire"
 	},
-  "commitlint": {
+	"commitlint": {
 		"extends": [
 			"@commitlint/config-conventional"
 		]
@@ -67,5 +68,6 @@
 	"lint-staged": {
 		"*": "prettier --ignore-unknown --write",
 		"*.{mjs,js,ts}": "eslint --fix --ext mjs,js,ts"
-	}
+	},
+	"prettier": "@sapphire/prettier-config"
 }
