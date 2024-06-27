@@ -12,25 +12,21 @@ import {
 } from 'ts-morph'
 import Logger from './utils/Logger.js'
 
-const program = new Command()
+const cli = new Command()
 
-program
-	.name('saph-convert')
+cli.name('saph-convert')
 	.description('CLI tool to convert Sapphire.js command files from JS to TS')
 	.version('1.0.0')
 
-program
-	.option(
-		'-r, --replace',
-		'Replace original JS command files with converted TypeScript files. Default: Disabled',
-	)
-	.option(
-		'-o, --overwrite',
-		'Overwrite existing TypeScript files. Default: Enabled',
-	)
+cli.option(
+	'-r, --replace',
+	'Replace original JS command files with converted TypeScript files. Default: Disabled',
+).option(
+	'-o, --overwrite',
+	'Overwrite existing TypeScript files. Default: Enabled',
+)
 
-program
-	.command('cf')
+cli.command('cf')
 	.description('Convert a specific JS command file to TS')
 	.argument('<inputFile>', 'Path to the JS command file to convert')
 	.argument(
@@ -42,7 +38,7 @@ program
 		`\nExample:\n  $ saph-convert cf src/commands/myCommand.js [dist/commands/myCommand]\n`,
 	)
 	.action(async (inputFile: string, outputPath?: string) => {
-		const options = program.opts()
+		const options = cli.opts()
 		await convertFile(
 			inputFile,
 			outputPath,
@@ -51,8 +47,7 @@ program
 		)
 	})
 
-program
-	.command('cdir')
+cli.command('cdir')
 	.description(
 		'Recursively convert all JS command files in a directory to TS',
 	)
@@ -69,7 +64,7 @@ program
 		`\nExample:\n  $ saph-convert cdir src/commands [dist/commands]\n`,
 	)
 	.action(async (inputDirectory: string, outputDirectory?: string) => {
-		const options = program.opts()
+		const options = cli.opts()
 		await convertDirectory(
 			inputDirectory,
 			outputDirectory,
@@ -79,10 +74,10 @@ program
 	})
 
 if (!process.argv.slice(2).length) {
-	program.outputHelp()
+	cli.outputHelp()
 }
 
-program.parse(process.argv)
+cli.parse(process.argv)
 
 /**
  * Reads a JavaScript file from the given path.
