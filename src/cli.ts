@@ -10,6 +10,14 @@ import {
 	Scope,
 	SourceFile,
 } from 'ts-morph'
+import {
+	overwriteOptionsDefaultValue,
+	overwriteOptionsDescription,
+	overwriteOptionsFlag,
+	replaceOptionsDefaultValue,
+	replaceOptionsDescription,
+	replaceOptionsFlag,
+} from './constants.js'
 import Logger from './utils/Logger.js'
 
 const cli = new Command()
@@ -19,11 +27,15 @@ cli.name('saph-convert')
 	.version('1.0.0')
 
 cli.option(
-	'-r, --replace',
-	'Replace original JS command files with converted TypeScript files. Default: Disabled',
-).option(
-	'-o, --overwrite',
-	'Overwrite existing TypeScript files. Default: Enabled',
+	replaceOptionsFlag,
+	replaceOptionsDescription,
+	replaceOptionsDefaultValue,
+)
+
+cli.option(
+	overwriteOptionsFlag,
+	overwriteOptionsDescription,
+	overwriteOptionsDefaultValue,
 )
 
 cli.command('cf')
