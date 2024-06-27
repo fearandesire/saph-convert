@@ -104,16 +104,16 @@ async function readJavaScriptFile(inputFile: string): Promise<string> {
  * @returns {string} The converted TypeScript code.
  */
 function convertToTypeScript(jsCode: string): string {
-	const project = new Project();
-	const sourceFile = project.createSourceFile('temp.ts', jsCode);
+	const project = new Project()
+	const sourceFile = project.createSourceFile('temp.ts', jsCode)
 
-	transformClasses(sourceFile);
-	transformFunctions(sourceFile);
-	transformMethods(sourceFile);
+	transformClasses(sourceFile)
+	transformFunctions(sourceFile)
+	transformMethods(sourceFile)
 
-	addApplyOptionsImport(sourceFile);
+	addApplyOptionsImport(sourceFile)
 
-	return sourceFile.getText();
+	return sourceFile.getText()
 }
 
 /**
@@ -253,21 +253,22 @@ function transformMethods(sourceFile: SourceFile) {
 	})
 }
 
-
 /**
  *
  * @param {SourceFile} sourceFile - The source file to check and modify.
  */
 function addApplyOptionsImport(sourceFile: SourceFile) {
-	const applyOptionsUsed = sourceFile.getClasses().some(cls =>
-		cls.getDecorators().some(dec => dec.getName() === 'ApplyOptions')
-	);
+	const applyOptionsUsed = sourceFile
+		.getClasses()
+		.some((cls) =>
+			cls.getDecorators().some((dec) => dec.getName() === 'ApplyOptions'),
+		)
 
 	if (applyOptionsUsed) {
 		sourceFile.addImportDeclaration({
 			moduleSpecifier: '@sapphire/decorators',
 			namedImports: ['ApplyOptions'],
-		});
+		})
 	}
 }
 
@@ -406,7 +407,10 @@ async function convertDirectory(
 		for (const jsFile of jsFiles) {
 			const relativePath = path.relative(inputDirectory, jsFile)
 			const outputPath = outputDirectory
-				? path.join(outputDirectory, relativePath.replace(/\.js$/, '.ts'))
+				? path.join(
+						outputDirectory,
+						relativePath.replace(/\.js$/, '.ts'),
+					)
 				: jsFile.replace(/\.js$/, '.ts')
 			const jsCode = await readJavaScriptFile(jsFile)
 			const tsCode = convertToTypeScript(jsCode)
