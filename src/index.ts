@@ -3,7 +3,7 @@ import { Command } from 'commander';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { ClassDeclaration, ConstructorDeclaration, MethodDeclaration, Project, Scope, SourceFile } from 'ts-morph';
-import Logger from './utils/Logger.js';
+import Logger from './lib/Logger.js';
 
 const program = new Command();
 

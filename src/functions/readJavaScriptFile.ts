@@ -1,4 +1,4 @@
-import { readFile } from 'node:fs/promises'
+import { readFile } from 'node:fs/promises';
 
 /**
  * Reads a JavaScript file from the given path.
@@ -8,7 +8,7 @@ import { readFile } from 'node:fs/promises'
  */
 export async function readJavaScriptFile(inputFile: string): Promise<string> {
 	if (!inputFile.endsWith('.js')) {
-		inputFile += '.js'
+		inputFile += '.js';
 	}
-	return readFile(inputFile, 'utf-8')
+	return readFile(inputFile, 'utf-8');
 }
