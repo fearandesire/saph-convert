@@ -29,7 +29,8 @@ cli.option(
 	overwriteOptionsDefaultValue,
 )
 
-cli.command('cf')
+cli.command('convert-file')
+	.aliases(['cf', 'file', 'f'])
 	.description('Convert a specific JS command file to TS')
 	.argument('<inputFile>', 'Path to the JS command file to convert')
 	.argument(
@@ -42,7 +43,8 @@ cli.command('cf')
 	)
 	.action(convertFile)
 
-cli.command('cdir')
+cli.command('convert-directory')
+	.aliases(['cd', 'directory', 'd'])
 	.description(
 		'Recursively convert all JS command files in a directory to TS',
 	)
