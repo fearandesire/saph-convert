@@ -1,5 +1,29 @@
 # Changelog
 
+All notable changes to this project will be documented in this file.
+
+# [1.1.0](https://github.com/fearandesire/saph-convert/compare/v1.0.2...v1.1.0) - (2024-06-28)
+
+## 🐛 Bug Fixes
+
+- Apply type in proper place ([a74d1b7](https://github.com/fearandesire/saph-convert/commit/a74d1b729db84432359b6d5f210e7ea8003364c6))
+- Workflow permissions ([4c67730](https://github.com/fearandesire/saph-convert/commit/4c677305db17abb51036418ef40edbacc029dec8))
+- Restore tsc ([f321d80](https://github.com/fearandesire/saph-convert/commit/f321d803d03ab2ad63feb3ceabb510573401d981))
+- Use tsx for binary to build proeprly ([5d1b111](https://github.com/fearandesire/saph-convert/commit/5d1b111fdea638b71e3b780061be296ebfa506e3))
+- Update readme conversion output example to use the correct class name and type annotations. ([64bd751](https://github.com/fearandesire/saph-convert/commit/64bd7515ecacb37cb30b2901ad21736d54cce873))
+- Correct decorator type argument in addApplyOptionsDecorator ([491134d](https://github.com/fearandesire/saph-convert/commit/491134d29f1e465dbe51aa468205b821c93a49c9))
+
+## 📝 Documentation
+
+- Install instructions; hyperlinks, grammar and re-wording ([dfc2793](https://github.com/fearandesire/saph-convert/commit/dfc2793298da9478a90c7e5b2ebe3c6b516bb35a))
+
+## 🚀 Features
+
+- Script to execute cli for local testing ([49f916f](https://github.com/fearandesire/saph-convert/commit/49f916faba92aee11ba5cda33e6687388207682b))
+- Update tsconfig.json to target ESNext `Require for await in top level` ([a5a0aef](https://github.com/fearandesire/saph-convert/commit/a5a0aef843689bb0ad20689fe98d64e2e2eb370a))
+
+# Changelog
+
 
 ## v1.0.2
 
