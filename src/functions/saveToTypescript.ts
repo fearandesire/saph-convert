@@ -1,6 +1,6 @@
+import Logger from '#lib/Logger'
 import fs from 'fs/promises'
 import path from 'path'
-import Logger from '../utils/Logger'
 
 /**
  * Saves the TypeScript code to the specified output path.

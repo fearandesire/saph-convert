@@ -1,7 +1,6 @@
 #!/usr/bin/env node
-import { Command } from 'commander'
-import { convertDirectory } from './commands/convert-directory.js'
-import { convertFile } from './commands/convert-file.js'
+import { convertDirectory } from '#commands/convert-directory'
+import { convertFile } from '#commands/convert-file'
 import {
 	overwriteOptionsDefaultValue,
 	overwriteOptionsDescription,
@@ -9,7 +8,8 @@ import {
 	replaceOptionsDefaultValue,
 	replaceOptionsDescription,
 	replaceOptionsFlag,
-} from './constants.js'
+} from '#constants'
+import { Command } from 'commander'
 
 export const cli = new Command()
 

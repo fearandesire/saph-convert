@@ -3,6 +3,14 @@
 	"version": "1.0.2",
 	"description": "CLI tool to effortlessly convert Sapphire.js JavaScript commands to TypeScript",
 	"main": "dist/cli.js",
+	"imports": {
+		"#root": "./dist/*.js",
+		"#lib/*": "./dist/lib/*.js",
+		"#functions": "./dist/functions/index.js",
+		"#functions/*": "./dist/functions/*.js",
+		"#commands/*": "./dist/commands/*.js",
+		"#constants": "./dist/constants.js"
+	},
 	"scripts": {
 		"build": "tsc",
 		"dev": "tsx src/cli.ts",
