@@ -1,28 +1,28 @@
-import { cyan, magenta, red, yellow } from 'ansis'
+import { cyan, magenta, red, yellow } from 'ansis';
 
-type LogLevel = 'info' | 'error' | 'warn' | 'debug'
-type Loggable = string | number | boolean | object
+type LogLevel = 'info' | 'error' | 'warn' | 'debug';
+type Loggable = string | number | boolean | object;
 
 interface LevelColors {
-	[key: string]: string
+	[key: string]: string;
 }
 
 class InternalLogger {
-	private levels: LevelColors
-	private cliToolName: string
+	private levels: LevelColors;
+	private cliToolName: string;
 
 	/**
 	 * Creates an instance of InternalLogger.
 	 * @param {string} cliToolName - The name of the CLI tool.
 	 */
-	constructor(cliToolName: string) {
-		this.cliToolName = cliToolName
+	public constructor(cliToolName: string) {
+		this.cliToolName = cliToolName;
 		this.levels = {
 			info: cyan(this.cliToolName),
 			debug: magenta(this.cliToolName),
 			error: red(this.cliToolName),
-			warn: yellow(this.cliToolName),
-		}
+			warn: yellow(this.cliToolName)
+		};
 	}
 
 	/**
@@ -30,7 +30,7 @@ class InternalLogger {
 	 * @param {...Loggable[]} messages - The messages to log.
 	 */
 	public info<T extends Loggable>(...messages: T[]): void {
-		this.log('info', messages)
+		this.log('info', messages);
 	}
 
 	/**
@@ -38,7 +38,7 @@ class InternalLogger {
 	 * @param {...Loggable[]} messages - The messages to log.
 	 */
 	public error<T extends Loggable>(...messages: T[]): void {
-		this.log('error', messages)
+		this.log('error', messages);
 	}
 
 	/**
@@ -46,7 +46,7 @@ class InternalLogger {
 	 * @param {...Loggable[]} messages - The messages to log.
 	 */
 	public warn<T extends Loggable>(...messages: T[]): void {
-		this.log('warn', messages)
+		this.log('warn', messages);
 	}
 
 	/**
@@ -54,7 +54,7 @@ class InternalLogger {
 	 * @param {...Loggable[]} messages - The messages to log.
 	 */
 	public debug<T extends Loggable>(...messages: T[]): void {
-		this.log('debug', messages)
+		this.log('debug', messages);
 	}
 
 	/**
@@ -63,14 +63,14 @@ class InternalLogger {
 	 * @param {Loggable[]} messages - The messages to log.
 	 */
 	private log<T extends Loggable>(level: LogLevel, messages: T[]): void {
-		const lvlPrefix = this.levels[level]
+		const lvlPrefix = this.levels[level];
 		if (Array.isArray(messages) && messages.length > 1) {
-			console.log(`${lvlPrefix}:`)
+			console.log(`${lvlPrefix}:`);
 			messages.forEach((message) => {
-				console.log(this.formatMessage(message))
-			})
+				console.log(this.formatMessage(message));
+			});
 		} else {
-			console.log(`${lvlPrefix}: ${this.formatMessage(messages[0])}`)
+			console.log(`${lvlPrefix}: ${this.formatMessage(messages[0])}`);
 		}
 	}
 
@@ -81,11 +81,11 @@ class InternalLogger {
 	 */
 	private formatMessage<T extends Loggable>(message: T): string {
 		if (typeof message === 'object' && message !== null) {
-			return JSON.stringify(message, null, 2)
+			return JSON.stringify(message, null, 2);
 		}
-		return String(message)
+		return String(message);
 	}
 }
 
-const Logger = new InternalLogger('saph-convert')
-export default Logger
+const Logger = new InternalLogger('saph-convert');
+export default Logger;
