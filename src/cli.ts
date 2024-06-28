@@ -18,6 +18,7 @@ import {
 	replaceOptionsDescription,
 	replaceOptionsFlag,
 } from './constants.js'
+import { CommandOptions } from './lib/types.js'
 import Logger from './utils/Logger.js'
 
 const cli = new Command()
@@ -50,7 +51,7 @@ cli.command('cf')
 		`\nExample:\n  $ saph-convert cf src/commands/myCommand.js [dist/commands/myCommand]\n`,
 	)
 	.action(async (inputFile: string, outputPath?: string) => {
-		const options = cli.opts()
+		const options = cli.opts<CommandOptions>()
 		await convertFile(
 			inputFile,
 			outputPath,
@@ -76,12 +77,12 @@ cli.command('cdir')
 		`\nExample:\n  $ saph-convert cdir src/commands [dist/commands]\n`,
 	)
 	.action(async (inputDirectory: string, outputDirectory?: string) => {
-		const options = cli.opts()
+		const options = cli.opts<CommandOptions>()
 		await convertDirectory(
-			inputDirectory,
-			outputDirectory,
 			options.overwrite,
 			options.replace,
+			inputDirectory,
+			outputDirectory,
 		)
 	})
 
@@ -393,10 +394,10 @@ async function convertFile(
  * @param {boolean} replace - Whether to delete the original JavaScript file after conversion.
  */
 async function convertDirectory(
+	overwrite: boolean,
+	replace: boolean,
 	inputDirectory: string,
 	outputDirectory?: string,
-	overwrite: boolean = true,
-	replace: boolean = false,
 ) {
 	try {
 		const jsFiles = await findJavaScriptFiles(inputDirectory)
