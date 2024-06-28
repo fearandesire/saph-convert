@@ -14,10 +14,13 @@ import Logger from './utils/Logger.js'
 
 const program = new Command()
 
+const packageFile = new URL('../package.json', import.meta.url);
+const packageJson = JSON.parse(await fs.readFile(packageFile, 'utf-8'));
+
 program
 	.name('saph-convert')
 	.description('CLI tool to convert Sapphire.js command files from JS to TS')
-	.version('1.0.0')
+	.version( packageJson.version)
 
 program
 	.option(
