@@ -28,7 +28,8 @@
 		"watch": "tsc -b src -w",
 		"bump": "cliff-jumper",
 		"check-update": "cliff-jumper --dry-run",
-		"prepack": "yarn build"
+		"prepack": "yarn build",
+		"dev": "tsx src/index.ts"
 	},
 	"dependencies": {
 		"ansis": "^3.2.0",
