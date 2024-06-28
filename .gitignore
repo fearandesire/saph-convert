@@ -5,6 +5,7 @@ node_modules/
 *.iml
 coverage/
 docs/
+.vscode
 
 # Yarn files
 .yarn/install-state.gz
@@ -22,3 +23,6 @@ package-lock.json
 
 # Ignore the GH cli downloaded by workflows
 gh
+
+# Local development files
+dev
