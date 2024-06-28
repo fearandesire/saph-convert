@@ -23,9 +23,9 @@
 		"lint": "eslint src --ext ts --fix",
 		"prettier": "prettier --ignore-path=.prettierignore",
 		"format": "prettier --write .",
-		"build": "tsx -b src",
-		"clean": "tsx -b src --clean",
-		"watch": "tsx -b src -w",
+		"build": "tsc -b src",
+		"clean": "tsc -b src --clean",
+		"watch": "tsc -b src -w",
 		"bump": "cliff-jumper",
 		"check-update": "cliff-jumper --dry-run",
 		"prepack": "yarn build"
