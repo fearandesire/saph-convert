@@ -1,6 +1,6 @@
 <div align="center">
 
-# sapph-convert
+# [saph-convert](https://github.com/fearandesire/saph-convert)
 
 **A CLI tool to convert Sapphire Framework command files from JavaScript to TypeScript.**
 
@@ -26,22 +26,27 @@
 
 [Back to top][toc]
 
-This CLI tool is designed to convert Sapphire Framework command files from JavaScript to TypeScript. It is a simple tool that can be used to convert a single command file or all command files within a directory.
+✨ Transform your Sapphire commands from JS to TS with this simple CLI tool! Convert single files or entire directories with ease.
 
-> **Note:** This tool is designed to work with Sapphire Framework command files only. It may not work as expected with other types of files.
+> **Note:** This tool is only designed to work with Sapphire Framework command files.
 
 ## Features
 
 [Back to top][toc]
 
--   Convert a single command file
--   Convert all command files within a directory
--   Replace original JS command file(s) with converted TypeScript files
--   Overwrite existing TS file
+-   Convert Sapphire JS commands to TS
+-   Transform single command files or directories
+-   Easily replace the original JS file in the same process
 
-## Usage
+## Installation
 
 [Back to top][toc]
+
+```bash
+npm install -g saph-convert
+```
+
+Or directly use the CLI tool directly via `npx`
 
 ```bash
 npx saph-convert <command> [options]
@@ -71,7 +76,7 @@ npx saph-convert cdir <directory> [ouptutDirectory] [options]
 -   `cf <file> [ouptutDirectory] [options]`: Convert a single file.
 -   `cdir <directory> [ouptutDirectory] [options]`: Convert all files in a directory.
 
-## Conversion Exemples
+## Conversion Examples
 
 [Back to top][toc]
 
@@ -136,7 +141,7 @@ export class UserCommand extends Command {
 
 ## Contributors
 
-Please make sure to read the [Contributing Guide][contributing] before making a pull request.
+Please make sure to read this [Contributing Guide][contributing] before making a pull request.
 
 Thank you to all the people who already contributed to this project!
 
