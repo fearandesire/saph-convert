@@ -13,7 +13,7 @@ const packageJson = JSON.parse(await fs.readFile(packageFile, 'utf-8'));
 program //
 	.name('saph-convert')
 	.description('CLI tool to convert Sapphire.js command files from JS to TS')
-	.version( packageJson.version)
+	.version(packageJson.version);
 
 program
 	.option('-r, --replace', 'Replace original JS command files with converted TypeScript files. Default: Disabled')
