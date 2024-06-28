@@ -90,6 +90,9 @@
 	"publishConfig": {
 		"access": "public"
 	},
+	"eslintConfig": {
+		"extends": "@sapphire"
+	},
 	"prettier": "@sapphire/prettier-config",
 	"packageManager": "yarn@4.3.1"
 }
