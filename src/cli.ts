@@ -60,8 +60,4 @@ cli.command('cdir')
 	)
 	.action(convertDirectory)
 
-if (!process.argv.slice(2).length) {
-	cli.outputHelp()
-}
-
 cli.parse(process.argv)
