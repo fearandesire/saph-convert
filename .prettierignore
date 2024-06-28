@@ -1,5 +1,5 @@
-package-lock.json
-node_modules
-.fleet
-.mobios-forge
-*.md
+dist/
+node_modules/
+.yarn/
+
+CHANGELOG.md
