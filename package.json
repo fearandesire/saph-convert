@@ -1,55 +1,95 @@
 {
-  "name": "saph-convert",
-  "version": "1.0.2",
-  "description": "CLI tool to effortlessly convert Sapphire.js JavaScript commands to TypeScript",
-  "main": "dist/index.js",
-  "scripts": {
-    "build": "tsc",
-    "dev": "tsx src/index.ts",
-    "start": "node dist/index.js",
-    "release": "yarn release-it"
-  },
-  "bin": "dist/index.js",
-  "keywords": [
-    "sapphire.js command converter",
-    "js converter",
-    "command-line",
-    "cli",
-    "js-to-ts",
-    "code-conversion",
-    "typescript-converter",
-    "sapphire-converter",
-    "node.js",
-    "programming"
-  ],
-  "author": "fearandesire <fenixcoding@gmail.com>",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/fearandesire/saph-convert"
-  },
-  "license": "MIT",
-  "type": "module",
-  "packageManager": "yarn@4.2.2",
-  "dependencies": {
-    "ansis": "^3.2.0",
-    "commander": "^12.1.0",
-    "ts-morph": "^22.0.0"
-  },
-  "devDependencies": {
-    "@types/lodash": "^4.17.4",
-    "@types/node": "^20.14.1",
-    "@typescript-eslint/eslint-plugin": "^7.11.0",
-    "@typescript-eslint/parser": "^7.12.0",
-    "eslint": "^9.5.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.1.3",
-    "globals": "^15.6.0",
-    "prettier": "^3.3.0",
-    "release-it": "^17.3.0",
-    "release-it-changelogen": "^0.1.0",
-    "tsconfig-paths": "^4.2.0",
-    "tsx": "^4.11.0",
-    "typescript": "^5.5.2",
-    "vitest": "^1.6.0"
-  }
+	"name": "saph-convert",
+	"version": "1.0.2",
+	"description": "CLI tool to effortlessly convert Sapphire.js JavaScript commands to TypeScript",
+	"author": "fearandesire <fenixcoding@gmail.com>",
+	"license": "MIT",
+	"type": "module",
+	"main": "dist/index.js",
+	"bin": "dist/index.js",
+	"sideEffects": "false",
+	"files": [
+		"dist/**/*.js"
+	],
+	"scripts": {
+		"lint": "eslint src --ext ts --fix",
+		"prettier": "prettier --ignore-path=.prettierignore",
+		"format": "prettier --write .",
+		"build": "tsc -b src",
+		"clean": "tsc -b src --clean",
+		"watch": "tsc -b src -w",
+		"bump": "cliff-jumper",
+		"check-update": "cliff-jumper --dry-run",
+		"prepack": "yarn build"
+	},
+	"dependencies": {
+		"ansis": "^3.2.0",
+		"commander": "^12.1.0",
+		"ts-morph": "^22.0.0"
+	},
+	"devDependencies": {
+		"@commitlint/cli": "^19.3.0",
+		"@commitlint/config-conventional": "^19.2.2",
+		"@favware/cliff-jumper": "^4.0.2",
+		"@favware/npm-deprecate": "^1.0.2",
+		"@sapphire/eslint-config": "^5.0.5",
+		"@sapphire/prettier-config": "^2.0.0",
+		"@sapphire/ts-config": "^5.0.1",
+		"@types/lodash": "^4.17.4",
+		"@types/node": "^20.14.1",
+		"@typescript-eslint/eslint-plugin": "^7.11.0",
+		"@typescript-eslint/parser": "^7.12.0",
+		"cz-conventional-changelog": "^3.3.0",
+		"eslint": "^8.57.0",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-prettier": "^5.1.3",
+		"globals": "^15.6.0",
+		"lint-staged": "^15.2.7",
+		"prettier": "^3.3.0",
+		"tsconfig-paths": "^4.2.0",
+		"tsx": "^4.11.0",
+		"typescript": "^5.5.2",
+		"vitest": "^1.6.0"
+	},
+	"engines": {
+		"node": ">=v18"
+	},
+	"keywords": [
+		"sapphire.js command converter",
+		"js converter",
+		"command-line",
+		"cli",
+		"js-to-ts",
+		"code-conversion",
+		"typescript-converter",
+		"sapphire-converter",
+		"node.js",
+		"programming"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/fearandesire/saph-convert.git"
+	},
+	"bugs": {
+		"url": "https://github.com/fearandesire/saph-convert/issues"
+	},
+	"commitlint": {
+		"extends": [
+			"@commitlint/config-conventional"
+		]
+	},
+	"lint-staged": {
+		"*": "prettier --ignore-unknown --write",
+		"*.{mjs,js,ts}": "eslint --fix --ext mjs,js,ts"
+	},
+	"config": {
+		"commitizen": {
+			"path": "./node_modules/cz-conventional-changelog"
+		}
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"prettier": "@sapphire/prettier-config",
+	"packageManager": "yarn@4.3.1"
 }
