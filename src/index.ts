@@ -129,9 +129,8 @@ function getDescriptionFromConstructor(constructor: ConstructorDeclaration): str
  */
 function addApplyOptionsDecorator(cls: ClassDeclaration, description: string) {
 	cls.addDecorator({
-		name: 'ApplyOptions',
-		arguments: [`{ description: "${description}" }`],
-		typeArguments: ['Command.Options']
+		name: 'ApplyOptions<Command.Options>',
+		arguments: [`{ description: "${description}" }`]
 	});
 }
 
