@@ -1,8 +1,8 @@
 import { convertToTypeScript, readJavaScriptFile, saveTypeScriptFile } from '#functions';
 import Logger from '#lib/Logger';
 import type { CommandOptions } from '#lib/types';
-import { cli } from '../cli.js';
-import path from 'path';
+import { cli } from '#root/cli';
+import path from 'node:path';
 
 /**
  * Converts a specific JavaScript file to TypeScript.

@@ -5,10 +5,10 @@
 	"author": "fearandesire <fenixcoding@gmail.com>",
 	"license": "MIT",
 	"type": "module",
-	"main": "dist/index.js",
-	"bin": "dist/index.js",
+	"main": "dist/cli.js",
+	"bin": "./dist/cli.js",
 	"imports": {
-		"#root": "./dist/*.js",
+		"#root/*": "./dist/*.js",
 		"#lib/*": "./dist/lib/*.js",
 		"#functions": "./dist/functions/index.js",
 		"#functions/*": "./dist/functions/*.js",
@@ -24,12 +24,12 @@
 		"prettier": "prettier --ignore-path=.prettierignore",
 		"format": "prettier --write .",
 		"build": "tsc -b src",
+		"start": "node dist/cli.js",
 		"clean": "tsc -b src --clean",
 		"watch": "tsc -b src -w",
 		"bump": "cliff-jumper",
 		"check-update": "cliff-jumper --dry-run",
-		"prepack": "yarn build",
-		"dev": "tsx src/index.ts"
+		"prepack": "yarn build"
 	},
 	"dependencies": {
 		"ansis": "^3.2.0",
@@ -58,7 +58,6 @@
 		"lint-staged": "^15.2.7",
 		"prettier": "^3.3.0",
 		"tsconfig-paths": "^4.2.0",
-		"tsx": "^4.11.0",
 		"typescript": "^5.5.2",
 		"vitest": "^1.6.0"
 	},

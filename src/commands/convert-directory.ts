@@ -1,8 +1,8 @@
 import { convertToTypeScript, findJavaScriptFiles, readJavaScriptFile, saveTypeScriptFile } from '#functions';
+import Logger from '#lib/Logger';
 import type { CommandOptions } from '#lib/types';
-import { cli } from '../cli.js';
-import path from 'path';
-import Logger from '../lib/Logger.js';
+import { cli } from '#root/cli';
+import path from 'node:path';
 
 /**
  * Recursively converts all JavaScript files in a directory to TypeScript.
