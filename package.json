@@ -6,7 +6,9 @@
 	"license": "MIT",
 	"type": "module",
 	"main": "dist/cli.js",
-	"bin": "dist/cli.js",
+	"bin": {
+		"saph-convert": "./dist/cli.js"
+	},
 	"imports": {
 		"#root": "./dist/*.js",
 		"#lib/*": "./dist/lib/*.js",
