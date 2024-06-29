@@ -1,6 +1,6 @@
 import Logger from '#lib/Logger';
-import fs from 'fs/promises';
-import path from 'path';
+import { access, mkdir, unlink, writeFile } from 'node:fs/promises';
+import path from 'node:path';
 
 /**
  * Saves the TypeScript code to the specified output path.
@@ -14,12 +14,12 @@ export async function saveTypeScriptFile(tsCode: string, outputPath: string, ove
 	const outputDir = path.dirname(outputPath);
 	const outputFileName = `${path.basename(outputPath, path.extname(outputPath))}.ts`;
 
-	await fs.mkdir(outputDir, { recursive: true });
+	await mkdir(outputDir, { recursive: true });
 	const outputFilePath = path.join(outputDir, outputFileName);
 
 	if (!overwrite) {
 		try {
-			await fs.access(outputFilePath);
+			await access(outputFilePath);
 			Logger.warn(`File ${outputFilePath} already exists. Skipping.`);
 			return;
 		} catch {
@@ -27,10 +27,10 @@ export async function saveTypeScriptFile(tsCode: string, outputPath: string, ove
 		}
 	}
 
-	await fs.writeFile(outputFilePath, tsCode);
+	await writeFile(outputFilePath, tsCode);
 	if (replace) {
 		try {
-			await fs.unlink(outputFilePath.replace(/\.ts$/, '.js'));
+			await unlink(outputFilePath.replace(/\.ts$/, '.js'));
 		} catch (error: unknown) {
 			if (error instanceof Error) {
 				Logger.error(`Error deleting original JavaScript file: ${error.message}`);
