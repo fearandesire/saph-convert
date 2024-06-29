@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 import { convertDirectory } from '#commands/convert-directory';
 import { convertFile } from '#commands/convert-file';
 import {
@@ -10,10 +11,17 @@ import {
 	replaceOptionsFlag
 } from '#constants';
 import { Command } from 'commander';
+import { readFile } from 'node:fs/promises';
+import { URL } from 'node:url';
 
 export const cli = new Command();
 
-cli.name('saph-convert').description('CLI tool to convert Sapphire.js command files from JS to TS').version('1.0.0');
+const packageFile = new URL('../package.json', import.meta.url);
+const packageJson = JSON.parse(await readFile(packageFile, 'utf-8'));
+
+cli.name('saph-convert') //
+	.description('CLI tool to convert Sapphire.js command files from JS to TS')
+	.version(packageJson.version);
 
 cli.option(replaceOptionsFlag, replaceOptionsDescription, replaceOptionsDefaultValue);
 
