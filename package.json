@@ -5,8 +5,8 @@
 	"author": "fearandesire <fenixcoding@gmail.com>",
 	"license": "MIT",
 	"type": "module",
-	"main": "dist/index.js",
-	"bin": "dist/index.js",
+	"main": "dist/cli.js",
+	"bin": "dist/cli.js",
 	"imports": {
 		"#root": "./dist/*.js",
 		"#lib/*": "./dist/lib/*.js",
@@ -23,13 +23,13 @@
 		"lint": "eslint src --ext ts --fix",
 		"prettier": "prettier --ignore-path=.prettierignore",
 		"format": "prettier --write .",
+		"dev": "tsx src/cli.ts",
 		"build": "tsc -b src",
 		"clean": "tsc -b src --clean",
 		"watch": "tsc -b src -w",
 		"bump": "cliff-jumper",
 		"check-update": "cliff-jumper --dry-run",
-		"prepack": "yarn build",
-		"dev": "tsx src/index.ts"
+		"prepack": "yarn build"
 	},
 	"dependencies": {
 		"ansis": "^3.2.0",

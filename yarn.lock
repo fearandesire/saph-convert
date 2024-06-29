@@ -4796,7 +4796,7 @@ __metadata:
     typescript: "npm:^5.5.2"
     vitest: "npm:^1.6.0"
   bin:
-    saph-convert: dist/index.js
+    saph-convert: dist/cli.js
   languageName: unknown
   linkType: soft
 

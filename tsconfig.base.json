@@ -5,7 +5,7 @@
 		"moduleResolution": "node16",
 		"paths": {
 			"#root/*": ["src/*.ts"],
-			"#lib/*": ["lib/*.ts"],
+			"#lib/*": ["src/lib/*.ts"],
 			"#commands/*": ["src/commands/*.ts"],
 			"#functions/*": ["src/functions/*.ts"],
 			"#constants": ["src/constants.ts"]
