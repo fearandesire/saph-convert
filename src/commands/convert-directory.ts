@@ -6,7 +6,6 @@ import type { CommandOptions } from '#lib/types';
 import { appendJSExtension } from '#lib/utils';
 import { cli } from '#root/cli';
 import { readFile } from 'node:fs/promises';
-import path from 'node:path';
 
 /**
  * Converts all JavaScript files in the specified directory to TypeScript.
@@ -25,14 +24,15 @@ export const convertDirectory = async (sourceDirectory: string, targetDirectory?
 
 		for (const javascriptFile of filteredJsFiles) {
 			Logger.info(`Converting ${javascriptFile}...`);
-			const relativePath = path.relative(sourceDirectory, javascriptFile);
 
 			const javascriptFileCode = await readFile(appendJSExtension(javascriptFile), 'utf-8');
 			const typescriptCode = convertToTypeScript(javascriptFileCode);
 
-			await saveTypeScriptFile(typescriptCode, targetDirectory ?? sourceDirectory, overwrite, replace);
+			const targetDirectoryPath = targetDirectory ?? sourceDirectory;
 
-			Logger.info(`Converted & saved to ${typescriptFilePath}`);
+			await saveTypeScriptFile(typescriptCode, targetDirectoryPath, overwrite, replace);
+
+			Logger.info(`Converted & saved to ${targetDirectoryPath}`);
 		}
 		Logger.info(`Completed TS conversion!`);
 	} catch (error: unknown) {
