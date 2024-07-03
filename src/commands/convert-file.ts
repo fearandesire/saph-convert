@@ -1,7 +1,10 @@
-import { convertToTypeScript, readJavaScriptFile, saveTypeScriptFile } from '#functions';
+import { convertToTypeScript } from '#functions/convertToTypescript';
+import { saveTypeScriptFile } from '#functions/saveToTypescript';
 import Logger from '#lib/Logger';
 import type { CommandOptions } from '#lib/types';
+import { appendJSExtension } from '#lib/utils';
 import { cli } from '#root/cli';
+import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 
 /**
@@ -13,7 +16,7 @@ import path from 'node:path';
 export const convertFile = async (inputFile: string, outputPath?: string): Promise<void> => {
 	const { overwrite, replace } = cli.opts<CommandOptions>();
 	try {
-		const jsCode = await readJavaScriptFile(inputFile);
+		const jsCode = await readFile(appendJSExtension(inputFile), 'utf-8');
 		const tsCode = convertToTypeScript(jsCode);
 		if (!outputPath) {
 			outputPath = path.join(path.dirname(inputFile), path.basename(inputFile, '.js'));

@@ -1,7 +1,11 @@
-import { convertToTypeScript, findJavaScriptFiles, readJavaScriptFile, saveTypeScriptFile } from '#functions';
+import { convertToTypeScript } from '#functions/convertToTypescript';
+import { findFilesRecursivelyStringEndsWith } from '#functions/findFilesRecursively';
+import { saveTypeScriptFile } from '#functions/saveToTypescript';
 import Logger from '#lib/Logger';
 import type { CommandOptions } from '#lib/types';
+import { appendJSExtension } from '#lib/utils';
 import { cli } from '#root/cli';
+import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 
 /**
@@ -13,18 +17,15 @@ import path from 'node:path';
 export const convertDirectory = async (inputDirectory: string, outputDirectory?: string): Promise<void> => {
 	const { overwrite, replace } = cli.opts<CommandOptions>();
 	try {
-		const jsFiles = await findJavaScriptFiles(inputDirectory);
-		const totalFiles = jsFiles.length;
-		if (totalFiles === 0) {
-			Logger.error(`No JavaScript files found in directory ${inputDirectory}.`);
-			return;
-		}
-		Logger.info(`Converting ${totalFiles} JavaScript files to TypeScript...`);
+		const foundFiles = await Array.fromAsync(findFilesRecursivelyStringEndsWith(inputDirectory, '.js'));
+		if (foundFiles.length === 0) Logger.error(`No JavaScript files found in directory ${inputDirectory}.`);
 
-		for (const jsFile of jsFiles) {
+		Logger.info(`Converting ${foundFiles.length} JavaScript files to TypeScript...`);
+
+		for (const jsFile of foundFiles) {
 			const relativePath = path.relative(inputDirectory, jsFile);
 			const outputPath = outputDirectory ? path.join(outputDirectory, relativePath.replace(/\.js$/, '.ts')) : jsFile.replace(/\.js$/, '.ts');
-			const jsCode = await readJavaScriptFile(jsFile);
+			const jsCode = await readFile(appendJSExtension(jsFile), 'utf-8');
 			const tsCode = convertToTypeScript(jsCode);
 			await saveTypeScriptFile(tsCode, outputPath, overwrite, replace);
 		}
@@ -36,4 +37,6 @@ export const convertDirectory = async (inputDirectory: string, outputDirectory?:
 			Logger.error(`Unexpected error occurred`);
 		}
 	}
+
+	process.exit(0);
 };

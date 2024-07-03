@@ -10,7 +10,6 @@
 	"imports": {
 		"#root/*": "./dist/*.js",
 		"#lib/*": "./dist/lib/*.js",
-		"#functions": "./dist/functions/index.js",
 		"#functions/*": "./dist/functions/*.js",
 		"#commands/*": "./dist/commands/*.js",
 		"#constants": "./dist/constants.js"
