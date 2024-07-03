@@ -9,25 +9,30 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 
 /**
- * Recursively converts all JavaScript files in a directory to TypeScript.
+ * Converts all JavaScript files in the specified directory to TypeScript.
  *
- * @param {string} inputDirectory - The directory containing JavaScript files to convert.
- * @param outputDirectory - The output directory for the TypeScript files.
+ * @param {string} sourceDirectory - The directory containing JavaScript files to convert.
+ * @param {string} [targetDirectory] - The directory to save the TypeScript files.
  */
-export const convertDirectory = async (inputDirectory: string, outputDirectory?: string): Promise<void> => {
+export const convertDirectory = async (sourceDirectory: string, targetDirectory?: string): Promise<void> => {
 	const { overwrite, replace } = cli.opts<CommandOptions>();
+
 	try {
-		const foundFiles = await Array.fromAsync(findFilesRecursivelyStringEndsWith(inputDirectory, '.js'));
-		if (foundFiles.length === 0) Logger.error(`No JavaScript files found in directory ${inputDirectory}.`);
+		const filteredJsFiles = await Array.fromAsync(findFilesRecursivelyStringEndsWith(sourceDirectory, '.js'));
+		if (filteredJsFiles.length === 0) Logger.error(`No JavaScript files found in directory ${sourceDirectory}.`);
 
-		Logger.info(`Converting ${foundFiles.length} JavaScript files to TypeScript...`);
+		Logger.info(`Found ${filteredJsFiles.length} JavaScript files to convert.`);
 
-		for (const jsFile of foundFiles) {
-			const relativePath = path.relative(inputDirectory, jsFile);
-			const outputPath = outputDirectory ? path.join(outputDirectory, relativePath.replace(/\.js$/, '.ts')) : jsFile.replace(/\.js$/, '.ts');
-			const jsCode = await readFile(appendJSExtension(jsFile), 'utf-8');
-			const tsCode = convertToTypeScript(jsCode);
-			await saveTypeScriptFile(tsCode, outputPath, overwrite, replace);
+		for (const javascriptFile of filteredJsFiles) {
+			Logger.info(`Converting ${javascriptFile}...`);
+			const relativePath = path.relative(sourceDirectory, javascriptFile);
+
+			const javascriptFileCode = await readFile(appendJSExtension(javascriptFile), 'utf-8');
+			const typescriptCode = convertToTypeScript(javascriptFileCode);
+
+			await saveTypeScriptFile(typescriptCode, targetDirectory ?? sourceDirectory, overwrite, replace);
+
+			Logger.info(`Converted & saved to ${typescriptFilePath}`);
 		}
 		Logger.info(`Completed TS conversion!`);
 	} catch (error: unknown) {

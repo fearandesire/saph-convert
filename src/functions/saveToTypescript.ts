@@ -1,7 +1,6 @@
 import Logger from '#lib/Logger';
-import { access, mkdir, unlink, writeFile } from 'node:fs/promises';
-import path from 'node:path';
-
+import { Result } from '@sapphire/result';
+import { access, unlink, writeFile } from 'node:fs/promises';
 /**
  * Saves the TypeScript code to the specified output path.
  *
@@ -11,32 +10,22 @@ import path from 'node:path';
  * @param {boolean} replace - Whether to delete the original JavaScript file after conversion.
  */
 export async function saveTypeScriptFile(tsCode: string, outputPath: string, overwrite: boolean, replace: boolean) {
-	const outputDir = path.dirname(outputPath);
-	const outputFileName = `${path.basename(outputPath, path.extname(outputPath))}.ts`;
+	const outputFilePath = outputPath.replace(/\.js$/, '.ts');
 
-	await mkdir(outputDir, { recursive: true });
-	const outputFilePath = path.join(outputDir, outputFileName);
-
-	if (!overwrite) {
-		try {
-			await access(outputFilePath);
-			Logger.warn(`File ${outputFilePath} already exists. Skipping.`);
-			return;
-		} catch {
-			// File does not exist, proceed with writing
-		}
+	if (!overwrite && (await fileExists(outputFilePath))) {
+		Logger.error(`File ${outputFilePath} already exists. Use the --overwrite flag to overwrite the file.`);
+		return;
 	}
+
+	if (replace) await unlink(outputPath);
 
 	await writeFile(outputFilePath, tsCode);
-	if (replace) {
-		try {
-			await unlink(outputFilePath.replace(/\.ts$/, '.js'));
-		} catch (error: unknown) {
-			if (error instanceof Error) {
-				Logger.error(`Error deleting original JavaScript file: ${error.message}`);
-			} else {
-				Logger.error(`Unexpected error occurred while deleting original JavaScript file`);
-			}
-		}
-	}
+
+	Logger.info(`Saved TypeScript file to ${outputFilePath}`);
+}
+
+async function fileExists(path: string): Promise<boolean> {
+	const result = await Result.fromAsync(access(path));
+
+	return result.isOk();
 }

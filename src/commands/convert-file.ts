@@ -5,24 +5,27 @@ import type { CommandOptions } from '#lib/types';
 import { appendJSExtension } from '#lib/utils';
 import { cli } from '#root/cli';
 import { readFile } from 'node:fs/promises';
-import path from 'node:path';
 
 /**
- * Converts a specific JavaScript file to TypeScript.
+ * Converts the specified JavaScript file to TypeScript.
  *
- * @param {string} inputFile - The JavaScript file to convert.
- * @param {string} outputPath - The output path for the TypeScript file.
+ * @param {string} sourceFile - The JavaScript file to convert.
+ * @param {string} [targetDirectory] - The path to save the TypeScript file.
  */
-export const convertFile = async (inputFile: string, outputPath?: string): Promise<void> => {
+export const convertFile = async (sourceFile: string, targetDirectory?: string): Promise<void> => {
 	const { overwrite, replace } = cli.opts<CommandOptions>();
+
 	try {
-		const jsCode = await readFile(appendJSExtension(inputFile), 'utf-8');
-		const tsCode = convertToTypeScript(jsCode);
-		if (!outputPath) {
-			outputPath = path.join(path.dirname(inputFile), path.basename(inputFile, '.js'));
-		}
-		await saveTypeScriptFile(tsCode, outputPath, overwrite, replace);
-		Logger.info(`Cmd converted & saved to ${outputPath}`);
+		Logger.info(`Converting ${sourceFile}...`);
+
+		const javascriptFileCode = await readFile(appendJSExtension(sourceFile), 'utf-8');
+		const typescriptCode = convertToTypeScript(javascriptFileCode);
+
+		const convertedFilePath = targetDirectory ?? sourceFile;
+
+		await saveTypeScriptFile(typescriptCode, convertedFilePath, overwrite, replace);
+
+		Logger.info(`Converted & saved to ${convertedFilePath}`);
 	} catch (error: unknown) {
 		if (error instanceof Error) {
 			Logger.error(`Error: ${error.message}`);
