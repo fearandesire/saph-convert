@@ -1,5 +1,4 @@
 import Logger from '#lib/Logger';
-import { Result } from '@sapphire/result';
 import { access, unlink, writeFile } from 'node:fs/promises';
 /**
  * Saves the TypeScript code to the specified output path.
@@ -24,8 +23,12 @@ export async function saveTypeScriptFile(tsCode: string, outputPath: string, ove
 	Logger.info(`Saved TypeScript file to ${outputFilePath}`);
 }
 
+/**
+ * Checks if a file exists.
+ *
+ * @param {string} path - The path to check.
+ * @returns {Promise<boolean>} Whether the file exists.
+ */
 async function fileExists(path: string): Promise<boolean> {
-	const result = await Result.fromAsync(access(path));
-
-	return result.isOk();
+	return Boolean(await access(path).catch(() => false));
 }
