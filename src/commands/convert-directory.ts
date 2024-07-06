@@ -1,32 +1,38 @@
-import { convertToTypeScript, findJavaScriptFiles, readJavaScriptFile, saveTypeScriptFile } from '#functions';
+import { convertToTypeScript } from '#functions/convertToTypescript';
+import { findFilesRecursivelyStringEndsWith } from '#functions/findFilesRecursively';
+import { saveTypeScriptFile } from '#functions/saveToTypescript';
 import Logger from '#lib/Logger';
 import type { CommandOptions } from '#lib/types';
+import { appendJSExtension } from '#lib/utils';
 import { cli } from '#root/cli';
-import path from 'node:path';
+import { readFile } from 'node:fs/promises';
 
 /**
- * Recursively converts all JavaScript files in a directory to TypeScript.
+ * Converts all JavaScript files in the specified directory to TypeScript.
  *
- * @param {string} inputDirectory - The directory containing JavaScript files to convert.
- * @param outputDirectory - The output directory for the TypeScript files.
+ * @param {string} sourceDirectory - The directory containing JavaScript files to convert.
+ * @param {string} [targetDirectory] - The directory to save the TypeScript files.
  */
-export const convertDirectory = async (inputDirectory: string, outputDirectory?: string): Promise<void> => {
+export const convertDirectory = async (sourceDirectory: string, targetDirectory?: string): Promise<void> => {
 	const { overwrite, replace } = cli.opts<CommandOptions>();
-	try {
-		const jsFiles = await findJavaScriptFiles(inputDirectory);
-		const totalFiles = jsFiles.length;
-		if (totalFiles === 0) {
-			Logger.error(`No JavaScript files found in directory ${inputDirectory}.`);
-			return;
-		}
-		Logger.info(`Converting ${totalFiles} JavaScript files to TypeScript...`);
 
-		for (const jsFile of jsFiles) {
-			const relativePath = path.relative(inputDirectory, jsFile);
-			const outputPath = outputDirectory ? path.join(outputDirectory, relativePath.replace(/\.js$/, '.ts')) : jsFile.replace(/\.js$/, '.ts');
-			const jsCode = await readJavaScriptFile(jsFile);
-			const tsCode = convertToTypeScript(jsCode);
-			await saveTypeScriptFile(tsCode, outputPath, overwrite, replace);
+	try {
+		const filteredJsFiles = await Array.fromAsync(findFilesRecursivelyStringEndsWith(sourceDirectory, '.js'));
+		if (filteredJsFiles.length === 0) Logger.error(`No JavaScript files found in directory ${sourceDirectory}.`);
+
+		Logger.info(`Found ${filteredJsFiles.length} JavaScript files to convert.`);
+
+		for (const javascriptFile of filteredJsFiles) {
+			Logger.info(`Converting ${javascriptFile}...`);
+
+			const javascriptFileCode = await readFile(appendJSExtension(javascriptFile), 'utf-8');
+			const typescriptCode = convertToTypeScript(javascriptFileCode);
+
+			const targetDirectoryPath = targetDirectory ?? sourceDirectory;
+
+			await saveTypeScriptFile(typescriptCode, targetDirectoryPath, overwrite, replace);
+
+			Logger.info(`Converted & saved to ${targetDirectoryPath}`);
 		}
 		Logger.info(`Completed TS conversion!`);
 	} catch (error: unknown) {
@@ -36,4 +42,6 @@ export const convertDirectory = async (inputDirectory: string, outputDirectory?:
 			Logger.error(`Unexpected error occurred`);
 		}
 	}
+
+	process.exit(0);
 };
