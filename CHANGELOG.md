@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.1.1](https://github.com/fearandesire/saph-convert/compare/v1.1.0...v1.1.1) - (2024-07-06)
+
+## 🏠 Refactor
+
+- Improve file search ([d1fc316](https://github.com/fearandesire/saph-convert/commit/d1fc3166d22d969002d9af75f2c942b691dc109f)) ([#8](https://github.com/fearandesire/saph-convert/pull/8) by @Swiizyy)
+
 # [1.1.0](https://github.com/fearandesire/saph-convert/compare/v1.0.2...v1.1.0) - (2024-06-28)
 
 ## 🐛 Bug Fixes
