@@ -10,8 +10,7 @@
 
 ## Contributing to the code
 
-\*\*The issue tracker is only for issue reporting or proposals/suggestions. If you have a question, you can find me on
-[Discord DM]!\*\*
+The issue tracker is **only** for issue reporting or proposals/suggestions. If you have a question, you can find me on [Discord]!
 
 To contribute to this repository, feel free to create a new fork of the repository and submit a pull request. We highly
 suggest [ESLint] to be installed in your text editor or IDE of your choice to ensure builds from GitHub Actions do not
@@ -40,7 +39,7 @@ exhaustive list, but here are some things to consider before/while submitting yo
 
 <!-- Link Dump -->
 
-[discord dm]: https://discord.com/users/208016830491525120
+[discord]: https://discord.com/users/208016830491525120
 [eslint]: https://eslint.org/
 [node.js]: https://nodejs.org/en/download/
 [yarn]: https://yarnpkg.com/getting-started/install
