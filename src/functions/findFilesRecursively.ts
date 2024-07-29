@@ -50,5 +50,5 @@ async function* findFilesRecursively(path: PathLike, predicate: (filePath: strin
  * @return An {@link AsyncIterableIterator} of all the files. To loop over these use `for await (const file of findFilesRecursivelyStringEndsWith(path, fileNameEndsWith)) {}`
  */
 export function findFilesRecursivelyStringEndsWith(path: PathLike, fileEndsWith: string) {
-	return findFilesRecursively(path, (filePath) => filePath.endsWith(fileEndsWith));
+	return findFilesRecursively(path, (filePath: string) => filePath.endsWith(fileEndsWith));
 }
