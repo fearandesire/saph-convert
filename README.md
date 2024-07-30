@@ -24,23 +24,15 @@
 
 ## Description
 
-[Back to top][toc]
-
-✨ Transform your Sapphire commands from JS to TS with this simple CLI tool! Convert single files or entire directories with ease.
-
-> **Note:** This tool is only designed to work with Sapphire Framework command files.
+✨ Transform your [Sapphire](https://sapphirejs.dev/) commands from JS to TS with this simple CLI tool. Convert single files or entire directories with ease.
 
 ## Features
-
-[Back to top][toc]
 
 -   Convert Sapphire JS commands to TS
 -   Transform single command files or directories
 -   Easily replace the original JS file in the same process
 
 ## Installation
-
-[Back to top][toc]
 
 ```bash
 npm install -g saph-convert
@@ -77,8 +69,6 @@ npx saph-convert cdir <directory> [ouptutDirectory] [options]
 -   `cdir <directory> [ouptutDirectory] [options]`: Convert all files in a directory.
 
 ## Conversion Examples
-
-[Back to top][toc]
 
 ```bash
 ## Convert a single file
@@ -118,11 +108,11 @@ class UserCommand extends Command {
 		return interaction.reply('Pong!');
 	}
 }
-
-module.exports = { UserCommand };
 ```
 
 ### Output
+
+[Back to top](#table-of-contents)
 
 ```typescript
 // src/commands/ping.ts
@@ -151,5 +141,5 @@ Thank you to all the people who already contributed to this project!
   <img src="https://contrib.rocks/image?repo=fearandesire/saph-convert" />
 </a>
 
-[contributing]: https://github.com/sapphiredev/.github/blob/main/.github/CONTRIBUTING.md
+[contributing]: https://github.com/fearandesire/saph-convert/blob/main/.github/CONTRIBUTING.md
 [toc]: #table-of-contents
