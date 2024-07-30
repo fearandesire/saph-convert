@@ -33,7 +33,7 @@
 	"dependencies": {
 		"ansis": "^3.3.2",
 		"commander": "^12.1.0",
-		"ts-morph": "^22.0.0"
+		"ts-morph": "^23.0.0"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^19.3.0",
