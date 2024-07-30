@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.2.0](https://github.com/fearandesire/saph-convert/compare/v1.1.1...v1.2.0) - (2024-07-30)
+
+## 🏠 Refactor
+
+- Type annotation ([2947a55](https://github.com/fearandesire/saph-convert/commit/2947a55365ad9b6e97f45823e15c3a6a64123e14))
+
+## 📝 Documentation
+
+- Formatting & styling ([e824d53](https://github.com/fearandesire/saph-convert/commit/e824d5360c305212b986b3a2ff3d5b19f8389ab5))
+- Patreon ([15ec8bd](https://github.com/fearandesire/saph-convert/commit/15ec8bdfe46eb4d40f0b54ff09b1acc986db25e4))
+
+## 🚀 Features
+
+- Update formatting ([5a14869](https://github.com/fearandesire/saph-convert/commit/5a1486906265e745aabc9a23b696a97636b4fed2))
+
 # [1.1.1](https://github.com/fearandesire/saph-convert/compare/v1.1.0...v1.1.1) - (2024-07-06)
 
 ## 🏠 Refactor
