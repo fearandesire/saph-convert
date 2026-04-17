@@ -1,5 +1,5 @@
-import Logger from '#lib/Logger';
-import { access, unlink, writeFile } from 'node:fs/promises';
+import Logger from "#lib/Logger";
+import { access, unlink, writeFile } from "node:fs/promises";
 /**
  * Saves the TypeScript code to the specified output path.
  *
@@ -8,11 +8,18 @@ import { access, unlink, writeFile } from 'node:fs/promises';
  * @param {boolean} overwrite - Whether to overwrite existing files.
  * @param {boolean} replace - Whether to delete the original JavaScript file after conversion.
  */
-export async function saveTypeScriptFile(tsCode: string, outputPath: string, overwrite: boolean, replace: boolean) {
-	const outputFilePath = outputPath.replace(/\.js$/, '.ts');
+export async function saveTypeScriptFile(
+	tsCode: string,
+	outputPath: string,
+	overwrite: boolean,
+	replace: boolean,
+) {
+	const outputFilePath = outputPath.replace(/\.js$/, ".ts");
 
 	if (!overwrite && (await fileExists(outputFilePath))) {
-		Logger.error(`File ${outputFilePath} already exists. Use the --overwrite flag to overwrite the file.`);
+		Logger.error(
+			`File ${outputFilePath} already exists. Use the --overwrite flag to overwrite the file.`,
+		);
 		return;
 	}
 

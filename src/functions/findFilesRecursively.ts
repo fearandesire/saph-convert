@@ -1,6 +1,6 @@
-import type { PathLike } from 'node:fs';
-import { opendir } from 'node:fs/promises';
-import { join } from 'node:path';
+import type { PathLike } from "node:fs";
+import { opendir } from "node:fs/promises";
+import { join } from "node:path";
 
 /**
  *
@@ -27,7 +27,10 @@ import { join } from 'node:path';
  * }
  * ```
  */
-async function* findFilesRecursively(path: PathLike, predicate: (filePath: string) => boolean = () => true): AsyncIterableIterator<string> {
+async function* findFilesRecursively(
+	path: PathLike,
+	predicate: (filePath: string) => boolean = () => true,
+): AsyncIterableIterator<string> {
 	const dir = await opendir(path);
 
 	for await (const item of dir) {
@@ -49,6 +52,11 @@ async function* findFilesRecursively(path: PathLike, predicate: (filePath: strin
  *
  * @return An {@link AsyncIterableIterator} of all the files. To loop over these use `for await (const file of findFilesRecursivelyStringEndsWith(path, fileNameEndsWith)) {}`
  */
-export function findFilesRecursivelyStringEndsWith(path: PathLike, fileEndsWith: string) {
-	return findFilesRecursively(path, (filePath: string) => filePath.endsWith(fileEndsWith));
+export function findFilesRecursivelyStringEndsWith(
+	path: PathLike,
+	fileEndsWith: string,
+) {
+	return findFilesRecursively(path, (filePath: string) =>
+		filePath.endsWith(fileEndsWith),
+	);
 }

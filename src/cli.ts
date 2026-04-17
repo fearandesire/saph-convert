@@ -1,49 +1,71 @@
 #!/usr/bin/env node
 
-import { convertDirectory } from '#commands/convert-directory';
-import { convertFile } from '#commands/convert-file';
+import { convertDirectory } from "#commands/convert-directory";
+import { convertFile } from "#commands/convert-file";
 import {
 	overwriteOptionsDefaultValue,
 	overwriteOptionsDescription,
 	overwriteOptionsFlag,
 	replaceOptionsDefaultValue,
 	replaceOptionsDescription,
-	replaceOptionsFlag
-} from '#constants';
-import { Command } from 'commander';
-import { readFile } from 'node:fs/promises';
-import { URL } from 'node:url';
+	replaceOptionsFlag,
+} from "#constants";
+import { Command } from "commander";
+import { readFile } from "node:fs/promises";
+import { URL } from "node:url";
 
 export const cli = new Command();
 
-const packageFile = new URL('../package.json', import.meta.url);
-const packageJson = JSON.parse(await readFile(packageFile, 'utf-8'));
+const packageFile = new URL("../package.json", import.meta.url);
+const packageJson = JSON.parse(await readFile(packageFile, "utf-8"));
 
-cli.name('saph-convert') //
-	.description('CLI tool to convert Sapphire.js command files from JS to TS')
+cli.name("saph-convert") //
+	.description("CLI tool to convert Sapphire.js command files from JS to TS")
 	.version(packageJson.version);
 
-cli.option(replaceOptionsFlag, replaceOptionsDescription, replaceOptionsDefaultValue);
+cli.option(
+	replaceOptionsFlag,
+	replaceOptionsDescription,
+	replaceOptionsDefaultValue,
+);
 
-cli.option(overwriteOptionsFlag, overwriteOptionsDescription, overwriteOptionsDefaultValue);
+cli.option(
+	overwriteOptionsFlag,
+	overwriteOptionsDescription,
+	overwriteOptionsDefaultValue,
+);
 
-cli.command('convert-file')
-	.aliases(['cf', 'file', 'f'])
-	.description('Convert a specific JS command file to TS')
-	.argument('<inputFile>', 'Path to the JS command file to convert')
-	.argument('[outputPath]', 'Output path for the TS file. Defaults to same directory as input file.')
-	.addHelpText('afterAll', `\nExample:\n  $ saph-convert cf src/commands/myCommand.js [dist/commands/myCommand]\n`)
+cli.command("convert-file")
+	.aliases(["cf", "file", "f"])
+	.description("Convert a specific JS command file to TS")
+	.argument("<inputFile>", "Path to the JS command file to convert")
+	.argument(
+		"[outputPath]",
+		"Output path for the TS file. Defaults to same directory as input file.",
+	)
+	.addHelpText(
+		"afterAll",
+		`\nExample:\n  $ saph-convert cf src/commands/myCommand.js [dist/commands/myCommand]\n`,
+	)
 	.action(convertFile);
 
-cli.command('convert-directory')
-	.aliases(['cd', 'directory', 'd'])
-	.description('Recursively convert all JS command files in a directory to TS')
-	.argument(
-		'<directory>',
-		'Directory containing Sapphire.js JS command files to convert to TS. ❗ Be cautious: this will blindly convert by the `.js` extension in the directory'
+cli.command("convert-directory")
+	.aliases(["cd", "directory", "d"])
+	.description(
+		"Recursively convert all JS command files in a directory to TS",
 	)
-	.argument('[outputDirectory]', 'Output directory for the TS files. Defaults to same directory as input.')
-	.addHelpText('afterAll', `\nExample:\n  $ saph-convert cdir src/commands [dist/commands]\n`)
+	.argument(
+		"<directory>",
+		"Directory containing Sapphire.js JS command files to convert to TS. ❗ Be cautious: this will blindly convert by the `.js` extension in the directory",
+	)
+	.argument(
+		"[outputDirectory]",
+		"Output directory for the TS files. Defaults to same directory as input.",
+	)
+	.addHelpText(
+		"afterAll",
+		`\nExample:\n  $ saph-convert cdir src/commands [dist/commands]\n`,
+	)
 	.action(convertDirectory);
 
 cli.parse(process.argv);
