@@ -1,6 +1,6 @@
-import { cyan, magenta, red, yellow } from 'ansis';
+import { cyan, magenta, red, yellow } from "ansis";
 
-type LogLevel = 'info' | 'error' | 'warn' | 'debug';
+type LogLevel = "info" | "error" | "warn" | "debug";
 type Loggable = string | number | boolean | object;
 
 interface LevelColors {
@@ -21,7 +21,7 @@ class InternalLogger {
 			info: cyan(this.cliToolName),
 			debug: magenta(this.cliToolName),
 			error: red(this.cliToolName),
-			warn: yellow(this.cliToolName)
+			warn: yellow(this.cliToolName),
 		};
 	}
 
@@ -30,7 +30,7 @@ class InternalLogger {
 	 * @param {...Loggable[]} messages - The messages to log.
 	 */
 	public info<T extends Loggable>(...messages: T[]): void {
-		this.log('info', messages);
+		this.log("info", messages);
 	}
 
 	/**
@@ -38,7 +38,7 @@ class InternalLogger {
 	 * @param {...Loggable[]} messages - The messages to log.
 	 */
 	public error<T extends Loggable>(...messages: T[]): void {
-		this.log('error', messages);
+		this.log("error", messages);
 	}
 
 	/**
@@ -46,7 +46,7 @@ class InternalLogger {
 	 * @param {...Loggable[]} messages - The messages to log.
 	 */
 	public warn<T extends Loggable>(...messages: T[]): void {
-		this.log('warn', messages);
+		this.log("warn", messages);
 	}
 
 	/**
@@ -54,7 +54,7 @@ class InternalLogger {
 	 * @param {...Loggable[]} messages - The messages to log.
 	 */
 	public debug<T extends Loggable>(...messages: T[]): void {
-		this.log('debug', messages);
+		this.log("debug", messages);
 	}
 
 	/**
@@ -80,12 +80,12 @@ class InternalLogger {
 	 * @returns {string} The formatted message.
 	 */
 	private formatMessage<T extends Loggable>(message: T): string {
-		if (typeof message === 'object' && message !== null) {
+		if (typeof message === "object" && message !== null) {
 			return JSON.stringify(message, null, 2);
 		}
 		return String(message);
 	}
 }
 
-const Logger = new InternalLogger('saph-convert');
+const Logger = new InternalLogger("saph-convert");
 export default Logger;
