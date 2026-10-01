@@ -23,6 +23,7 @@
 		"prettier": "prettier --ignore-path=.prettierignore",
 		"format": "prettier --write .",
 		"build": "tsc -b src",
+		"test": "vitest run",
 		"start": "node dist/cli.js",
 		"clean": "tsc -b src --clean",
 		"watch": "tsc -b src -w",
